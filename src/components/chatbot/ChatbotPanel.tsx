@@ -427,6 +427,18 @@ export function ChatbotPanel({ qrParams }: Props) {
                 Transición gradual. Agua fresca disponible. Si hay síntomas
                 persistentes, consulta a un veterinario.
               </p>
+              <a
+                href={recommended.storeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() =>
+                  track("store_link_clicked", qrParams, { product: recommended.id })
+                }
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-5 h-11 font-bold text-primary-foreground hover:bg-primary/90 transition"
+              >
+                <ShoppingBag className="h-4 w-4" />
+                Comprar en heroican.pe
+              </a>
             </div>
           </>
         )}
