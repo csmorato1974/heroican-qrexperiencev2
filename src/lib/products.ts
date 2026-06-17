@@ -2,7 +2,7 @@ import type { Product } from "@/types/domain";
 
 // Editable por el equipo comercial. Precios y URLs referenciales.
 // `storeUrl` debe apuntar al producto en la tienda oficial Heroican.
-const STORE_BASE = "https://heroican.pe";
+const STORE_URL = "https://heroican.com/tienda/";
 
 export const PRODUCTS: Product[] = [
   {
