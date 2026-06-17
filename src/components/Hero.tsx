@@ -1,43 +1,80 @@
-import { Button } from "@/components/ui/button";
-import { QrCode, MessageCircle } from "lucide-react";
+import { ChevronsRight } from "lucide-react";
+import type { QrParams } from "@/types/domain";
 
 interface Props {
-  onStart: () => void;
-  onWhatsapp: () => void;
+  qrParams: QrParams;
 }
 
-export function Hero({ onStart, onWhatsapp }: Props) {
+export function Hero({ qrParams }: Props) {
+  const qrId = qrParams.qr_id ?? "QR-DEMO-0001";
+  const lote = qrParams.lote ?? "LT-2026-06";
+  const campania = qrParams.campania ?? "ENTRY-PILOT";
+
   return (
     <section className="relative overflow-hidden">
       <div
-        className="absolute inset-0 -z-10 opacity-60"
+        className="absolute inset-0 -z-10"
+        style={{ background: "var(--gradient-hero)" }}
+      />
+      <div
+        className="absolute inset-0 -z-10 opacity-[0.07] mix-blend-screen"
         style={{
-          background:
-            "radial-gradient(60% 60% at 50% 0%, color-mix(in oklab, var(--accent) 25%, transparent), transparent 70%), linear-gradient(180deg, color-mix(in oklab, var(--primary) 8%, transparent), transparent 40%)",
+          backgroundImage:
+            "radial-gradient(circle at 20% 30%, var(--accent), transparent 35%), radial-gradient(circle at 80% 70%, var(--cyan), transparent 40%)",
         }}
       />
-      <div className="mx-auto max-w-6xl px-4 pt-12 pb-16 sm:pt-20 sm:pb-24 text-center">
-        <p className="font-display text-2xl tracking-wide text-primary">HEROICAN</p>
-        <h1 className="mt-6 text-4xl sm:text-6xl font-semibold leading-tight">
-          Alimenta su lealtad con una <span className="text-primary">experiencia</span> hecha para tu engreído
-        </h1>
-        <p className="mt-5 mx-auto max-w-2xl text-base sm:text-lg text-muted-foreground">
-          Escanea, responde unas preguntas y recibe una recomendación Heroican según la etapa y tamaño de tu perro.
-        </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Button size="lg" onClick={onStart} className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg">
-            <QrCode className="mr-2 h-5 w-5" /> Iniciar diagnóstico rápido
-          </Button>
-          <Button size="lg" variant="outline" onClick={onWhatsapp}>
-            <MessageCircle className="mr-2 h-5 w-5" /> Hablar por WhatsApp
-          </Button>
+
+      <div className="mx-auto max-w-6xl px-4 pt-10 pb-16 sm:pt-16 sm:pb-24">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="hud-chip">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent pulse-glow" />
+            SYS · ONLINE
+          </span>
+          <span className="hud-chip" style={{ color: "var(--cyan)" }}>
+            QR_ID · {qrId}
+          </span>
+          <span className="hud-chip" style={{ color: "var(--cyan)" }}>
+            LOTE · {lote}
+          </span>
+          <span className="hud-chip">CAMPAÑA · {campania}</span>
         </div>
-        <p className="mt-6 text-xs text-muted-foreground">
-          Sin descargar apps · Experiencia desde el empaque · Asistencia por WhatsApp
+
+        <h1 className="mt-8 font-display text-4xl sm:text-6xl font-semibold leading-[1.02] max-w-3xl">
+          MISIÓN 01<span className="text-accent">·</span>
+          <br />
+          Diagnóstico Nutricional para tu{" "}
+          <span className="italic text-primary">engreído</span>.
+        </h1>
+
+        <p className="mt-5 max-w-xl text-sm sm:text-base text-muted-foreground">
+          Tu asistente de campo ya está activo. Responde la secuencia en el panel
+          de la derecha y recibe la recomendación Heroican en menos de 60s.
         </p>
-        <p className="mt-2 text-xs text-muted-foreground/80">
-          Esta orientación es informativa y no reemplaza la evaluación de un veterinario.
-        </p>
+
+        <div className="mt-8 flex items-center gap-3 text-xs font-mono uppercase tracking-[0.18em] text-accent">
+          <ChevronsRight className="h-4 w-4 animate-pulse" />
+          <span>Panel del asistente: activo</span>
+        </div>
+
+        {/* HUD stats row */}
+        <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl">
+          {[
+            { k: "TASA QR", v: "34.6%" },
+            { k: "ENGAGEMENT", v: "00:27" },
+            { k: "RECOMPRA", v: "99.6%" },
+            { k: "ROI ADQ.", v: "-40%" },
+          ].map((s) => (
+            <div
+              key={s.k}
+              className="hud-panel corner-frame rounded-md p-3"
+            >
+              <p className="font-mono text-[10px] tracking-[0.18em] text-muted-foreground">
+                {s.k}
+              </p>
+              <p className="mt-1 font-display text-2xl text-accent">{s.v}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
