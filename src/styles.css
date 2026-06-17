@@ -182,6 +182,26 @@
   will-change: opacity;
 }
 
+@keyframes hero-video-breathe {
+  0%, 100% {
+    opacity: 0.55;
+    filter: blur(6px);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.hero-video-wrap {
+  isolation: isolate;
+}
+
+.hero-video {
+  animation: hero-video-breathe 9s ease-in-out infinite;
+  will-change: opacity, filter;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-sequence-frame {
     animation: none;
@@ -190,6 +210,12 @@
 
   .hero-sequence-frame:first-child {
     opacity: 1;
+  }
+
+  .hero-video {
+    animation: none;
+    opacity: 1;
+    filter: none;
   }
 }
 

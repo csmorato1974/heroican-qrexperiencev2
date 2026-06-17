@@ -1,30 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Camera, ChevronsRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { QrParams } from "@/types/domain";
 import heroSeq01 from "@/assets/hero-seq-01.png.asset.json";
-import heroSeq02 from "@/assets/hero-seq-02.png.asset.json";
-import heroSeq03 from "@/assets/hero-seq-03.png.asset.json";
-import heroSeq04 from "@/assets/hero-seq-04.png.asset.json";
-import heroSeq05 from "@/assets/hero-seq-05.png.asset.json";
-import heroSeq06 from "@/assets/hero-seq-06.png.asset.json";
-import heroSeq07 from "@/assets/hero-seq-07.png.asset.json";
-import heroSeq08 from "@/assets/hero-seq-08.png.asset.json";
-import heroSeq09 from "@/assets/hero-seq-09.png.asset.json";
-import heroSeq10 from "@/assets/hero-seq-10.png.asset.json";
+import heroVideo from "@/assets/hero-video.mp4.asset.json";
 
-const heroFrames = [
-  heroSeq01.url,
-  heroSeq02.url,
-  heroSeq03.url,
-  heroSeq04.url,
-  heroSeq05.url,
-  heroSeq06.url,
-  heroSeq07.url,
-  heroSeq08.url,
-  heroSeq09.url,
-  heroSeq10.url,
-];
 
 interface Props {
   qrParams: QrParams;
@@ -32,11 +12,18 @@ interface Props {
 
 export function Hero({ qrParams: _qrParams }: Props) {
   const [scrollY, setScrollY] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.5;
+    }
   }, []);
 
   return (
@@ -99,23 +86,20 @@ export function Hero({ qrParams: _qrParams }: Props) {
 
           <div
             role="img"
-            aria-label="Empaque Heroican con órbitas de beneficios nutricionales en secuencia animada"
-            className="hero-sequence relative mx-auto aspect-[16/9] w-full max-w-[860px]"
+            aria-label="Animación del empaque Heroican"
+            className="hero-video-wrap relative mx-auto aspect-[16/9] w-full max-w-[860px]"
           >
-            {heroFrames.map((frame, index) => (
-              <img
-                key={frame}
-                src={frame}
-                alt=""
-                aria-hidden="true"
-                loading={index === 0 ? "eager" : "lazy"}
-                className="hero-sequence-frame absolute inset-0 h-full w-full select-none object-contain"
-                style={{
-                  animationDelay: `${index * -1}s`,
-                  animationDuration: `${heroFrames.length}s`,
-                }}
-              />
-            ))}
+            <video
+              ref={videoRef}
+              src={heroVideo.url}
+              poster={heroSeq01.url}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              className="hero-video absolute inset-0 h-full w-full select-none object-contain"
+            />
           </div>
         </div>
       </div>
