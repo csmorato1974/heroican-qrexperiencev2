@@ -230,11 +230,11 @@ export function ChatbotPanel({ qrParams }: Props) {
           H
         </span>
         <span className="flex-1 text-left">
-          <span className="block font-mono text-[10px] tracking-[0.2em] text-accent">
-            ASISTENTE · STANDBY
+          <span className="block text-[11px] font-bold uppercase tracking-wide text-primary">
+            Asistente Heroican
           </span>
           <span className="block text-xs text-muted-foreground truncate">
-            Reanudar misión ({progressPct}%)
+            Continuar diagnóstico ({progressPct}%)
           </span>
         </span>
         <ChevronUp className="h-4 w-4 text-accent group-hover:-translate-y-0.5 transition-transform" />
@@ -267,11 +267,11 @@ export function ChatbotPanel({ qrParams }: Props) {
           H
         </span>
         <div className="flex-1 min-w-0">
-          <p className="font-mono text-[10px] tracking-[0.2em] text-accent">
-            ASISTENTE · ONLINE
+          <p className="text-[11px] font-bold uppercase tracking-wide text-primary">
+            Asistente Heroican
           </p>
           <p className="text-xs text-muted-foreground truncate">
-            Misión 01 — Diagnóstico
+            Diagnóstico nutricional
           </p>
         </div>
         <button
@@ -298,12 +298,9 @@ export function ChatbotPanel({ qrParams }: Props) {
       <div className="flex-1 overflow-y-auto px-4 py-5 space-y-4">
         {step === "welcome" && (
           <Bubble>
-            <span className="font-mono text-[10px] tracking-[0.18em] text-accent block mb-2">
-              [ INIT_SEQUENCE ]
-            </span>
-            Hola, soy tu <strong className="text-accent">Asistente Heroican</strong>.
-            Te guío en una secuencia rápida para recomendar el alimento ideal para
-            tu engreído.
+            ¡Hola! Soy tu <strong className="text-primary">Asistente Heroican</strong>.
+            Te haré unas preguntas rápidas para recomendarte el alimento ideal
+            para tu engreído. 🐾
           </Bubble>
         )}
 
@@ -370,15 +367,15 @@ export function ChatbotPanel({ qrParams }: Props) {
                         : [...cur, n];
                       answer("needs", next as Need[]);
                     }}
-                    className={`text-left rounded-md border px-3 py-2.5 transition text-sm ${
+                    className={`text-left rounded-2xl border px-4 py-3 transition text-sm font-semibold ${
                       checked
-                        ? "border-accent bg-accent/10 text-foreground"
-                        : "border-border bg-card hover:bg-muted"
+                        ? "border-primary bg-primary/10 text-foreground"
+                        : "border-border bg-card hover:bg-secondary"
                     }`}
                   >
                     <span className="flex items-center justify-between">
                       <span>{n}</span>
-                      {checked && <Check className="h-4 w-4 text-accent" />}
+                      {checked && <Check className="h-4 w-4 text-primary" />}
                     </span>
                   </button>
                 );
@@ -390,26 +387,23 @@ export function ChatbotPanel({ qrParams }: Props) {
         {step === "result" && recommended && (
           <>
             <Bubble>
-              <span className="font-mono text-[10px] tracking-[0.18em] text-accent block mb-2">
-                [ MATCH_FOUND ]
-              </span>
-              Para <strong>{answers.petName}</strong> el loadout óptimo es:
+              ¡Listo! Para <strong>{answers.petName}</strong> recomendamos:
             </Bubble>
-            <div className="hud-panel corner-frame rounded-md p-4">
-              <p className="font-display text-lg text-accent">
+            <div className="hud-panel rounded-2xl p-4">
+              <p className="font-display text-lg text-primary">
                 {recommended.name}
               </p>
-              <p className="mt-1 font-mono text-[10px] tracking-[0.18em] text-cyan">
+              <p className="mt-1 text-xs font-semibold text-muted-foreground">
                 {recommended.lifeStage} · {recommended.breedSize}
               </p>
-              <ul className="mt-4 space-y-2 text-sm font-mono">
+              <ul className="mt-4 space-y-2 text-sm">
                 {recommended.presentations.map((p) => (
                   <li
                     key={p.sizeKg}
-                    className="flex justify-between border-b border-dashed border-border/60 pb-1"
+                    className="flex justify-between border-b border-dashed border-border pb-1"
                   >
                     <span>
-                      <strong className="text-accent">{p.sizeKg} KG</strong>{" "}
+                      <strong className="text-primary">{p.sizeKg} kg</strong>{" "}
                       <span className="text-muted-foreground">
                         — S/ {p.pricePen}
                       </span>
@@ -493,10 +487,7 @@ export function ChatbotPanel({ qrParams }: Props) {
         {step === "whatsapp" && recommended && (
           <>
             <Bubble>
-              <span className="font-mono text-[10px] tracking-[0.18em] text-accent block mb-2">
-                [ MISSION_COMPLETE ]
-              </span>
-              Misión completada. A un mensaje de distancia.
+              🎉 ¡Todo listo! Estás a un mensaje de recibir tu asesoría.
             </Bubble>
             <div className="hud-panel rounded-md p-4 text-sm">
               Te derivaremos al WhatsApp comercial con la información de{" "}
@@ -529,7 +520,7 @@ export function ChatbotPanel({ qrParams }: Props) {
 
 function Bubble({ children }: { children: React.ReactNode }) {
   return (
-    <div className="max-w-[92%] rounded-md rounded-tl-sm border border-border bg-muted/60 px-3.5 py-2.5 text-sm">
+    <div className="max-w-[92%] rounded-2xl rounded-tl-sm border border-border bg-secondary/60 px-4 py-3 text-sm leading-relaxed">
       {children}
     </div>
   );
@@ -550,10 +541,10 @@ function OptionGrid({
         <button
           key={o}
           onClick={() => onSelect(o)}
-          className={`text-left rounded-md border px-3 py-2.5 transition text-sm ${
+          className={`text-left rounded-2xl border px-4 py-3 transition text-sm font-semibold ${
             value === o
-              ? "border-accent bg-accent/10 text-foreground"
-              : "border-border bg-card hover:bg-muted"
+              ? "border-primary bg-primary/10 text-foreground"
+              : "border-border bg-card hover:bg-secondary"
           }`}
         >
           {o}
@@ -574,7 +565,7 @@ function Field({
 }) {
   return (
     <div className="space-y-1.5">
-      <Label className="text-[10px] font-mono uppercase tracking-[0.18em] text-muted-foreground">
+      <Label className="text-xs font-bold text-muted-foreground">
         {label}
       </Label>
       {children}
@@ -601,12 +592,12 @@ function FooterActions({
   consentWhatsApp: boolean;
 }) {
   const cta =
-    "w-full font-mono uppercase tracking-[0.18em] text-xs bg-accent text-accent-foreground hover:bg-accent/90";
+    "w-full rounded-full h-11 font-bold bg-primary text-primary-foreground hover:bg-primary/90";
 
   if (step === "welcome")
     return (
       <Button className={cta} onClick={onStart}>
-        ▸ Iniciar secuencia
+        ¡Empecemos! →
       </Button>
     );
   if (step === "petName")
@@ -644,7 +635,7 @@ function FooterActions({
       <div className="flex gap-2">
         <Button
           variant="outline"
-          className="flex-1 font-mono uppercase tracking-[0.18em] text-xs"
+          className="flex-1 rounded-full h-11 font-bold"
           onClick={() => onNext("needs")}
         >
           Omitir
@@ -665,7 +656,7 @@ function FooterActions({
         disabled={!(answers.needs && answers.needs.length > 0)}
         onClick={() => onNext("result")}
       >
-        ▸ Generar recomendación
+        Ver mi recomendación →
       </Button>
     );
   if (step === "result")
@@ -683,7 +674,7 @@ function FooterActions({
   if (step === "whatsapp")
     return (
       <Button
-        className="w-full bg-[#25D366] text-white hover:bg-[#1ebe57] font-mono uppercase tracking-[0.18em] text-xs"
+        className="w-full rounded-full h-11 font-bold bg-[#25D366] text-white hover:bg-[#1ebe57]"
         disabled={!consentWhatsApp}
         onClick={onOpenWhatsapp}
       >
