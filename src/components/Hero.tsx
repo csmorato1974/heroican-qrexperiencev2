@@ -2,7 +2,29 @@ import { useEffect, useState } from "react";
 import { Camera, ChevronsRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { QrParams } from "@/types/domain";
-import heroicanOrbit from "@/assets/heroican-orbit.png.asset.json";
+import heroSeq01 from "@/assets/hero-seq-01.png.asset.json";
+import heroSeq02 from "@/assets/hero-seq-02.png.asset.json";
+import heroSeq03 from "@/assets/hero-seq-03.png.asset.json";
+import heroSeq04 from "@/assets/hero-seq-04.png.asset.json";
+import heroSeq05 from "@/assets/hero-seq-05.png.asset.json";
+import heroSeq06 from "@/assets/hero-seq-06.png.asset.json";
+import heroSeq07 from "@/assets/hero-seq-07.png.asset.json";
+import heroSeq08 from "@/assets/hero-seq-08.png.asset.json";
+import heroSeq09 from "@/assets/hero-seq-09.png.asset.json";
+import heroSeq10 from "@/assets/hero-seq-10.png.asset.json";
+
+const heroFrames = [
+  heroSeq01.url,
+  heroSeq02.url,
+  heroSeq03.url,
+  heroSeq04.url,
+  heroSeq05.url,
+  heroSeq06.url,
+  heroSeq07.url,
+  heroSeq08.url,
+  heroSeq09.url,
+  heroSeq10.url,
+];
 
 interface Props {
   qrParams: QrParams;
@@ -24,63 +46,80 @@ export function Hero({ qrParams: _qrParams }: Props) {
         style={{ background: "var(--gradient-hero)" }}
       />
 
-      {/* Parallax pattern background */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center"
         style={{ transform: `translate3d(0, ${scrollY * 0.25}px, 0)` }}
       >
         <img
-          src={heroicanOrbit.url}
+          src={heroSeq01.url}
           alt=""
           className="w-[140%] max-w-none opacity-20 blur-[1px] select-none"
         />
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 pt-10 pb-16 sm:pt-16 sm:pb-24 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 pt-10 pb-16 sm:pt-16 sm:pb-24 lg:grid-cols-[1.1fr_1fr] lg:items-center">
         <div>
+          <h1 className="max-w-3xl font-display text-4xl leading-[1.02] font-semibold sm:text-6xl">
+            Diagnóstico nutricional para tu{" "}
+            <span className="italic text-primary">engreído</span>
+            <span className="text-accent">.</span>
+          </h1>
 
-        <h1 className="font-display text-4xl sm:text-6xl font-semibold leading-[1.02] max-w-3xl">
-          Diagnóstico nutricional para tu{" "}
-          <span className="italic text-primary">engreído</span>
-          <span className="text-accent">.</span>
-        </h1>
+          <p className="mt-5 max-w-xl text-base text-muted-foreground">
+            Tu asistente Heroican ya está listo. Responde unas preguntas en el
+            panel y recibe la recomendación ideal en menos de 60 segundos.
+          </p>
 
-        <p className="mt-5 max-w-xl text-base text-muted-foreground">
-          Tu asistente Heroican ya está listo. Responde unas preguntas en el
-          panel y recibe la recomendación ideal en menos de 60 segundos.
-        </p>
-
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <Button
-            asChild
-            className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 h-12 font-bold"
-          >
-            <a href="#foto-mascota">
-              <Camera className="mr-2 h-5 w-5" />
-              Probar la experiencia con cámara
-            </a>
-          </Button>
-          <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
-            <ChevronsRight className="h-4 w-4 animate-pulse" />
-            Toma una foto de tu mascota
-          </span>
-        </div>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Button
+              asChild
+              className="h-12 rounded-full bg-primary px-6 font-bold text-primary-foreground hover:bg-primary/90"
+            >
+              <a href="#foto-mascota">
+                <Camera className="mr-2 h-5 w-5" />
+                Probar la experiencia con cámara
+              </a>
+            </Button>
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
+              <ChevronsRight className="h-4 w-4 animate-pulse" />
+              Toma una foto de tu mascota
+            </span>
+          </div>
         </div>
 
         <div
           className="relative"
           style={{ transform: `translate3d(0, ${scrollY * -0.08}px, 0)` }}
         >
-          <div className="absolute -inset-8 rounded-full bg-primary/10 blur-3xl" aria-hidden />
-          <img
-            src={heroicanOrbit.url}
-            alt="Empaque Heroican con órbitas de beneficios nutricionales"
-            className="relative w-full h-auto select-none"
-            loading="eager"
+          <div
+            className="absolute -inset-8 rounded-full bg-primary/10 blur-3xl"
+            aria-hidden
           />
+
+          <div
+            role="img"
+            aria-label="Empaque Heroican con órbitas de beneficios nutricionales en secuencia animada"
+            className="hero-sequence relative mx-auto aspect-[16/9] w-full max-w-[860px]"
+          >
+            {heroFrames.map((frame, index) => (
+              <img
+                key={frame}
+                src={frame}
+                alt=""
+                aria-hidden="true"
+                loading={index === 0 ? "eager" : "lazy"}
+                className="hero-sequence-frame absolute inset-0 h-full w-full select-none object-contain"
+                style={{
+                  animationDelay: `${index * -1}s`,
+                  animationDuration: `${heroFrames.length}s`,
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
+

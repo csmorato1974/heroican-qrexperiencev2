@@ -160,3 +160,36 @@
 @utility blink {
   animation: blink-cursor 1.4s ease-in-out infinite;
 }
+
+@keyframes hero-frame-sequence {
+  0%, 9.999% {
+    opacity: 1;
+  }
+  10%, 100% {
+    opacity: 0;
+  }
+}
+
+.hero-sequence {
+  isolation: isolate;
+}
+
+.hero-sequence-frame {
+  opacity: 0;
+  animation-name: hero-frame-sequence;
+  animation-timing-function: steps(1, end);
+  animation-iteration-count: infinite;
+  will-change: opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-sequence-frame {
+    animation: none;
+    opacity: 0;
+  }
+
+  .hero-sequence-frame:first-child {
+    opacity: 1;
+  }
+}
+
