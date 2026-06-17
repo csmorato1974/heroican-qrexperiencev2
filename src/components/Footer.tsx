@@ -1,11 +1,13 @@
 import { Link } from "@tanstack/react-router";
+import logoAsset from "@/assets/heroican-logo-footer.png.asset.json";
+
 
 export function Footer() {
   return (
     <footer className="border-t border-border bg-secondary/50 mt-12">
       <div className="mx-auto max-w-6xl px-4 py-10 grid gap-8 sm:grid-cols-3 text-sm">
         <div>
-          <p className="font-display text-2xl text-primary">Heroican</p>
+          <img src={logoAsset.url} alt="Heroican" className="h-12 w-auto" />
           <p className="mt-2 text-muted-foreground">
             Nutrición premium para perros. Pocollay, Tacna · Perú.
           </p>
