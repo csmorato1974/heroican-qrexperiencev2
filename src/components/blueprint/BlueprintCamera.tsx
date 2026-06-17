@@ -82,14 +82,8 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
   }
 
   function shareWhatsapp() {
-    const url = buildWhatsappUrl({
-      petName: "mi mascota",
-      lifeStage: "—",
-      breedSize: "—",
-      recommendedProduct: "Heroican",
-      leadName: "Tutor",
-      city: qrParams.ciudad_url ?? "Perú",
-    });
+    const msg = "Hola Heroican, quiero asesoría personalizada para saber cómo cuidar a mi mascota";
+    const url = `https://wa.me/59161212107?text=${encodeURIComponent(msg)}`;
     track("blueprint_share_whatsapp", qrParams);
     window.open(url, "_blank");
   }
