@@ -32,52 +32,53 @@
   --color-ring: var(--ring);
   --color-cream: var(--cream);
   --color-cinnamon: var(--cinnamon);
-  --color-neon: var(--neon);
-  --color-cyan: var(--cyan);
+  --color-moss: var(--moss);
+  --color-cyan: var(--moss);
+  --color-neon: var(--accent);
   --font-display: "Fraunces", ui-serif, Georgia, serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-sans: "Nunito", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Nunito", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
-  --radius: 0.5rem;
+  --radius: 1rem;
 
-  /* Heroican gaming-figital palette */
-  --cream: oklch(0.96 0.018 85);
-  --cinnamon: oklch(0.66 0.16 45);
-  --neon: oklch(0.84 0.18 75);          /* amber neon glow */
-  --cyan: oklch(0.78 0.13 210);         /* blueprint cyan */
+  /* Heroican pet-friendly palette — warm, soft, playful */
+  --cream: oklch(0.97 0.02 85);
+  --cinnamon: oklch(0.62 0.15 45);
+  --moss: oklch(0.55 0.09 145);
 
-  --background: oklch(0.17 0.025 250);  /* deep navy */
-  --foreground: oklch(0.96 0.015 85);
-  --card: oklch(0.22 0.03 250);         /* HUD panel */
-  --card-foreground: oklch(0.96 0.015 85);
-  --popover: oklch(0.22 0.03 250);
-  --popover-foreground: oklch(0.96 0.015 85);
-  --primary: oklch(0.66 0.16 45);       /* cinnamon */
-  --primary-foreground: oklch(0.15 0.02 250);
-  --secondary: oklch(0.27 0.035 250);
-  --secondary-foreground: oklch(0.96 0.015 85);
-  --muted: oklch(0.26 0.025 250);
-  --muted-foreground: oklch(0.72 0.02 230);
-  --accent: oklch(0.84 0.18 75);        /* neon amber */
-  --accent-foreground: oklch(0.15 0.02 250);
-  --destructive: oklch(0.62 0.22 27);
+  --background: oklch(0.97 0.022 85);                   /* cream paper */
+  --foreground: oklch(0.27 0.04 40);                    /* warm dark brown */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.27 0.04 40);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.27 0.04 40);
+  --primary: oklch(0.55 0.16 40);                       /* cinnamon */
+  --primary-foreground: oklch(0.98 0.015 85);
+  --secondary: oklch(0.92 0.035 80);                    /* soft sand */
+  --secondary-foreground: oklch(0.32 0.05 40);
+  --muted: oklch(0.94 0.025 80);
+  --muted-foreground: oklch(0.48 0.04 50);
+  --accent: oklch(0.78 0.14 75);                        /* warm amber */
+  --accent-foreground: oklch(0.25 0.05 40);
+  --destructive: oklch(0.6 0.2 27);
   --destructive-foreground: oklch(0.98 0.01 85);
-  --border: oklch(0.4 0.04 240 / 0.45);
-  --input: oklch(0.3 0.03 250);
-  --ring: oklch(0.84 0.18 75);
+  --border: oklch(0.85 0.03 70);
+  --input: oklch(0.9 0.025 80);
+  --ring: oklch(0.62 0.15 45);
 
-  --grid-line: oklch(0.6 0.05 220 / 0.18);
-  --gradient-hero: linear-gradient(100deg,
-    oklch(0.42 0.12 45) 0%,
-    oklch(0.3 0.08 50) 35%,
-    oklch(0.2 0.04 240) 55%,
-    oklch(0.16 0.03 250) 100%);
-  --shadow-glow: 0 0 40px color-mix(in oklab, var(--accent) 35%, transparent);
-  --shadow-hud: inset 0 1px 0 oklch(1 0 0 / 0.06),
-                inset 0 0 0 1px oklch(1 0 0 / 0.04),
-                0 18px 40px oklch(0 0 0 / 0.55);
+  --dot-color: oklch(0.62 0.08 50 / 0.18);
+  --gradient-hero: radial-gradient(120% 80% at 20% 0%,
+      oklch(0.94 0.06 75) 0%,
+      oklch(0.96 0.03 80) 45%,
+      oklch(0.97 0.02 85) 100%);
+  --gradient-warm: linear-gradient(135deg,
+      oklch(0.78 0.14 75) 0%,
+      oklch(0.66 0.16 50) 100%);
+  --shadow-soft: 0 1px 0 oklch(1 0 0 / 0.6) inset,
+                 0 12px 28px -16px oklch(0.4 0.1 40 / 0.35);
+  --shadow-glow: 0 12px 36px -10px color-mix(in oklab, var(--primary) 35%, transparent);
 }
 
 @layer base {
@@ -89,63 +90,45 @@
   body {
     font-family: var(--font-sans);
     background-image:
-      linear-gradient(var(--grid-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-    background-size: 48px 48px, 48px 48px;
-    background-position: -1px -1px;
+      radial-gradient(var(--dot-color) 1px, transparent 1.5px);
+    background-size: 22px 22px;
     background-attachment: fixed;
   }
   h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; }
-  ::selection { background: var(--accent); color: var(--accent-foreground); }
+  ::selection { background: var(--primary); color: var(--primary-foreground); }
 }
 
 @utility font-mono {
-  font-family: var(--font-mono);
-  font-feature-settings: "ss01", "ss02";
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 @utility hud-panel {
   position: relative;
-  background:
-    linear-gradient(180deg,
-      oklch(0.24 0.03 250 / 0.92),
-      oklch(0.2 0.03 250 / 0.92));
-  border: 1px solid oklch(0.55 0.06 220 / 0.35);
-  box-shadow: var(--shadow-hud);
-  backdrop-filter: blur(8px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
 }
 
 @utility hud-chip {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.6rem;
-  border: 1px solid oklch(0.55 0.08 220 / 0.4);
-  background: oklch(0.22 0.03 250 / 0.6);
-  color: var(--accent);
-  border-radius: 0.25rem;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid color-mix(in oklab, var(--primary) 30%, transparent);
+  background: color-mix(in oklab, var(--primary) 8%, var(--card));
+  color: var(--primary);
+  border-radius: 999px;
 }
 
 @utility corner-frame {
   position: relative;
-  &::before, &::after {
-    content: "";
-    position: absolute;
-    width: 14px; height: 14px;
-    border: 2px solid var(--accent);
-  }
-  &::before {
-    top: -1px; left: -1px;
-    border-right: 0; border-bottom: 0;
-  }
-  &::after {
-    bottom: -1px; right: -1px;
-    border-left: 0; border-top: 0;
-  }
 }
 
 @utility neon-glow {
@@ -154,29 +137,14 @@
 
 @utility scanline {
   position: relative;
-  overflow: hidden;
-  &::after {
-    content: "";
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(
-      180deg,
-      transparent 0,
-      transparent 3px,
-      oklch(1 0 0 / 0.02) 3px,
-      oklch(1 0 0 / 0.02) 4px
-    );
-    pointer-events: none;
-  }
 }
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 55%, transparent),
-                0 0 20px color-mix(in oklab, var(--accent) 25%, transparent);
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 45%, transparent);
   }
   50% {
-    box-shadow: 0 0 0 8px color-mix(in oklab, var(--accent) 0%, transparent),
-                0 0 32px color-mix(in oklab, var(--accent) 45%, transparent);
+    box-shadow: 0 0 0 10px color-mix(in oklab, var(--primary) 0%, transparent);
   }
 }
 
@@ -186,9 +154,9 @@
 
 @keyframes blink-cursor {
   0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+  50%, 100% { opacity: 0.35; }
 }
 
 @utility blink {
-  animation: blink-cursor 1s steps(2) infinite;
+  animation: blink-cursor 1.4s ease-in-out infinite;
 }
