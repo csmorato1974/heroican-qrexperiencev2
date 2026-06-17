@@ -12,8 +12,8 @@ export const leadSchema = z.object({
     .max(20)
     .regex(PHONE_REGEX, "Usa 9XXXXXXXX (Perú) o formato internacional +..."),
   city: z.string().trim().min(2, "Ingresa tu ciudad").max(60),
-  consentWhatsApp: z.literal(true, {
-    errorMap: () => ({ message: "Necesitamos tu consentimiento para contactarte" }),
+  consentWhatsApp: z.boolean().refine((v) => v === true, {
+    message: "Necesitamos tu consentimiento para contactarte",
   }),
   consentLocation: z.boolean().optional(),
 });
