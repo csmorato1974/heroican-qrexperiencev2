@@ -68,9 +68,8 @@ export function ARPreview({ qrParams }: { qrParams: QrParams }) {
             Tomar foto a mi mascota
           </Button>
         </div>
-
-        </div>
       </div>
+
 
       <BlueprintCamera open={open} onOpenChange={setOpen} qrParams={qrParams} />
     </section>
