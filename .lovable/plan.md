@@ -1,81 +1,67 @@
-# Heroican — Rediseño "gaming-figital" + modal persistente
+# Blueprint Interno · Modo Cámara + Badges
 
-Adecuar la landing a la estética de la presentación (PPT_HEROICAN_V2) y convertir el diagnóstico en una experiencia siempre visible, sin CTA de apertura.
+Transformar la sección "Blueprint Interno" para que el cliente capture (o suba) una foto de su mascota y la vea dentro de un modal HUD con 4 badges fijos anclados sobre la imagen, al estilo de la referencia de Heroican (líneas conectoras + tarjetas laterales).
 
-## 1. Estética: de "editorial cálido" a "gaming figital"
+## Flujo de usuario
 
-Inspirado en la portada del PPT: lado **terracota/cinnamon orgánico** + lado **navy blueprint técnico**. Lo llevamos a un registro gaming-HUD (no infantil, no cartoon): paneles oscuros, glow neón, esquinas biseladas, líneas de blueprint, tipografía técnica monoespaciada para datos.
+1. En la sección Blueprint Interno el CTA cambia de "Iniciar previsualización" a **"Escanear a mi mascota"**.
+2. Al pulsar:
+   - **Mobile**: abre la cámara trasera vía `<input type="file" accept="image/*" capture="environment">` (no requiere permisos especiales, funciona en iOS/Android).
+   - **Desktop**: el mismo input abre el selector de archivos.
+3. La imagen se lee como `dataURL` y se muestra dentro de un modal HUD a pantalla casi completa.
+4. Sobre la imagen aparecen **4 badges fijos** posicionados en porcentajes (no detección real) con línea conectora hacia un hotspot animado:
+   - **F01 · Confort digestivo** — canela funcional, efecto carminativo.
+   - **F02 · Vitalidad** — 20% mín. proteína, energía diaria.
+   - **F03 · Piel y pelaje** — aceites + vitaminas.
+   - **F04 · Palatabilidad** — hidrolizados de hígado.
+   El contenido de los badges se adapta al producto recomendado por el chatbot si ya existe sesión (lee `heroican.session` de localStorage); si no, usa textos por defecto de Heroican.
+5. Botones inferiores: **Volver a tomar**, **Descargar imagen con badges** (canvas → PNG) y **Compartir por WhatsApp** (reusa `buildWhatsappUrl`).
+6. Tracking de eventos: `blueprint_camera_opened`, `blueprint_photo_captured`, `blueprint_photo_downloaded`, `blueprint_share_whatsapp`.
 
-**Tokens nuevos en `src/styles.css`:**
-- `--background`: navy profundo `oklch(0.18 0.03 250)` (lado blueprint del PPT)
-- `--surface`: panel HUD `oklch(0.22 0.04 250)`
-- `--primary`: cinnamon/ember `oklch(0.66 0.18 45)` (heredado del PPT)
-- `--accent`: neón ámbar `oklch(0.82 0.19 75)` para glows/CTAs
-- `--accent-cyan`: cian eléctrico `oklch(0.78 0.15 210)` para acentos HUD
-- `--grid-line`: línea blueprint `oklch(0.55 0.05 220 / 0.25)`
-- `--gradient-hero`: split terracota → navy del PPT
-- `--shadow-glow`: `0 0 40px color-mix(in oklab, var(--accent) 35%, transparent)`
-- `--shadow-hud`: `inset 0 1px 0 oklch(1 0 0 / 0.08), 0 8px 32px oklch(0 0 0 / 0.5)`
+## Aclaración importante
 
-**Tipografía:**
-- Mantener Fraunces para títulos hero (coherencia con PPT)
-- Body: Inter
-- Añadir **JetBrains Mono** para chips de datos, métricas, "SYS / QR_ID / LOTE" estilo HUD
+No es AR real ni detección por IA. Son badges posicionados con coordenadas porcentuales fijas sobre la foto capturada, manteniendo la estética HUD/gaming de la landing. Esto es coherente con la fase **Entry** del MVP y la marca **Heroican** (no Royal Canin, asumo que fue un lapsus en el mensaje). Si querés detección real de partes del cuerpo del perro, sería trabajo de fase Immersive.
 
-**Patrones visuales reutilizables:**
-- Fondo con grid blueprint sutil (SVG repeat) + scanline
-- Esquinas "corner brackets" `⌐ ¬ ⌙ ⌎` en paneles
-- Badges tipo `[ STATUS: ONLINE ]` monoespaciados
-- Animación `pulse-glow` en CTA accent
-- Transición tipográfica con `animate-fade-in` ya disponible
+## Cambios técnicos
 
-## 2. Modal persistente "siempre abierto"
+```text
+src/components/ARPreview.tsx              → refactor: CTA "Escanear" + ocultar modal previo
+src/components/blueprint/BlueprintCamera.tsx  → NUEVO: modal con foto + badges
+src/components/blueprint/BlueprintBadges.ts   → NUEVO: definición de los 4 badges (code, title, body, x%, y%)
+src/lib/tracker.ts                        → nuevos nombres de evento (sin cambio de API)
+```
 
-Eliminar el botón "Iniciar diagnóstico rápido" y el flujo de apertura. El asistente vive **embebido en la landing** como un panel HUD fijo, no como Dialog modal.
+### `BlueprintCamera.tsx` (resumen)
 
-**Cambios estructurales:**
-- Renombrar `ChatbotModal` → `ChatbotPanel` (sin `<Dialog>`).
-- Render directo en `routes/index.tsx`, sin `useState(open)`.
-- Comportamiento responsive:
-  - **Mobile**: panel ocupa la parte inferior fija (`fixed bottom-0`, ~75svh), arrastrable a fullscreen, no se puede cerrar — siempre presente. El hero queda detrás como contexto.
-  - **Desktop**: panel anclado a la derecha (`fixed right-6 bottom-6 top-24 w-[420px]`) tipo "console", siempre visible mientras el usuario hace scroll por las secciones (HowItWorks, Benefits, AR, ProductsMatrix).
-- El "X" se reemplaza por botón **minimizar** (colapsa a una barra HUD de 56px con el avatar pulsante y un "REANUDAR ▸"), nunca cierra.
-- Estado del progreso del quiz persistido en `localStorage` (`heroican.session`) para que sobreviva refresh — refuerza el "siempre presente".
+- Usa `Dialog` de shadcn con `max-w-[min(560px,95vw)]` y estética `hud-panel scanline corner-frame`.
+- Estado: `photo: string | null`.
+- Input oculto + botón "Tomar foto"; al elegir archivo → `FileReader.readAsDataURL`.
+- Render: `<div className="relative aspect-[3/4]">` con `<img>` de fondo y los 4 badges en posición absoluta (`style={{ left: x+"%", top: y+"%" }}`), cada uno con un punto pulsante (`pulse-glow`) y una tarjeta lateral con `hud-chip` + título + descripción + línea SVG conectora.
+- En mobile las tarjetas colapsan a sheet inferior expandible para no tapar la foto.
+- Descarga: render off-screen en `<canvas>` (foto + badges dibujados) → `toBlob` → link de descarga.
 
-**Hero rediseñado:**
-- Sin CTA primario de iniciar. El hero pasa a ser tipo "title card" de videojuego: título grande, badge `[ MISIÓN 01 — DIAGNÓSTICO ]`, indicador "↘ Panel activo" apuntando al chat.
-- CTA secundario de WhatsApp se mantiene como link discreto.
+### Badges (data)
 
-## 3. Rediseño de secciones (mismo contenido, look HUD)
+```ts
+export const BLUEPRINT_BADGES = [
+  { code: "F01", title: "Confort digestivo", body: "Canela funcional, efecto carminativo.", x: 35, y: 55 },
+  { code: "F02", title: "Vitalidad",        body: "Mín. 20% proteína para energía diaria.", x: 65, y: 40 },
+  { code: "F03", title: "Piel y pelaje",    body: "Aceites y vitaminas clave.",             x: 50, y: 25 },
+  { code: "F04", title: "Palatabilidad",    body: "Hidrolizado de hígado de pollo.",        x: 45, y: 75 },
+];
+```
 
-- **Hero**: split-screen del PPT (terracota | blueprint) con el empaque al centro y stats animadas a la derecha tipo dashboard.
-- **HowItWorks**: 4 pasos como "missions" numeradas `01 / 02 / 03 / 04` con corner brackets y línea de progreso neón.
-- **Benefits**: cards HUD con border glow y chips monoespaciados.
-- **ARPreview**: pantalla tipo "scanner en proceso", overlay blueprint sobre la bolsa.
-- **ProductsMatrix**: tabla del PPT pasada a grid HUD; cada celda es un "loadout" (etapa × tamaño) con kg/precio en mono.
-- **Footer**: barra de status `[ SYS ONLINE · TACNA · v0.1-ENTRY ]`.
+## Fuera de alcance
 
-## 4. Archivos a tocar
-
-- `src/styles.css` — nuevos tokens, fondo grid, fuente JetBrains Mono, keyframe `pulse-glow`, utilidades `.hud-panel`, `.corner-brackets`, `.scanline`.
-- `src/routes/__root.tsx` — añadir JetBrains Mono al `<link>` de fonts.
-- `src/components/Hero.tsx` — eliminar botón "Iniciar diagnóstico"; rediseñar split + stats.
-- `src/components/HowItWorks.tsx`, `Benefits.tsx`, `ARPreview.tsx`, `ProductsMatrix.tsx`, `Footer.tsx` — reskin HUD/gaming.
-- `src/components/chatbot/ChatbotModal.tsx` → renombrar a `ChatbotPanel.tsx`; quitar `Dialog`, añadir minimizar, layout fixed mobile/desktop, persistencia en localStorage.
-- `src/routes/index.tsx` — quitar `useState(open)`, renderizar `<ChatbotPanel>` siempre; ajustar padding para no chocar con el panel.
-- `src/lib/tracker.ts` — añadir evento `panel_minimized` / `panel_restored`; remover dependencia de `modal_opened` (o mantener como `landing_panel_mounted`).
-
-## 5. Fuera de alcance
-
-- No cambia la lógica de recomendación, productos, validación de leads, WhatsApp ni métricas.
-- No se introducen sonidos, 3D real ni assets pesados.
-- No se cambia el roadmap (sigue siendo fase Entry).
+- Detección real de mascota / segmentación / AR.
+- Subida de la foto al backend (todo queda en el cliente).
+- Edición de la posición de los badges desde admin.
 
 ## Criterios de aceptación
 
-- La landing carga con el panel del asistente visible sin clic alguno.
-- En mobile el panel ocupa la parte inferior y no se puede cerrar (solo minimizar a barra).
-- En desktop el panel queda anclado a la derecha mientras se hace scroll.
-- El estado del quiz persiste tras recargar.
-- Paleta y tipografía coinciden con la portada del PPT (terracota + navy blueprint + acento neón).
-- Todas las secciones tienen tratamiento HUD coherente (corner brackets, chips mono, glow).
+- En mobile, pulsar el CTA abre la cámara trasera del dispositivo.
+- Tras tomar/elegir foto, aparece dentro del modal con 4 badges visibles superpuestos.
+- Los badges mantienen la estética HUD del resto de la landing (mono, neon amber, corner frames, scanline).
+- "Volver a tomar" reinicia el estado; "Descargar" produce un PNG con foto + badges; "WhatsApp" abre el chat con mensaje precargado.
+- El panel persistente del chatbot sigue visible y funcional durante todo el flujo.
+- Tracking local registra los eventos sin romper el dashboard `/metrics`.
