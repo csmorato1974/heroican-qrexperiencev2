@@ -219,11 +219,16 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
               <Button
                 size="sm"
                 variant="outline"
-                onClick={shareWhatsapp}
+                onClick={sendPhotoViaWhatsapp}
+                disabled={sending}
                 className="rounded-full font-bold ml-auto"
               >
-                <MessageCircle className="mr-1.5 h-3.5 w-3.5" />
-                WhatsApp
+                {sending ? (
+                  <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <MessageCircle className="mr-1.5 h-3.5 w-3.5" />
+                )}
+                Enviar por WhatsApp
               </Button>
             </div>
           </div>
