@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Camera, ChevronsRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { QrParams } from "@/types/domain";
@@ -8,13 +9,33 @@ interface Props {
 }
 
 export function Hero({ qrParams: _qrParams }: Props) {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <section className="relative overflow-hidden">
       <div
-        className="absolute inset-0 -z-10"
+        className="absolute inset-0 -z-20"
         style={{ background: "var(--gradient-hero)" }}
       />
+
+      {/* Parallax pattern background */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center"
+        style={{ transform: `translate3d(0, ${scrollY * 0.25}px, 0)` }}
+      >
+        <img
+          src={heroicanOrbit.url}
+          alt=""
+          className="w-[140%] max-w-none opacity-20 blur-[1px] select-none"
+        />
+      </div>
 
       <div className="mx-auto max-w-6xl px-4 pt-10 pb-16 sm:pt-16 sm:pb-24 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
         <div>
@@ -45,10 +66,12 @@ export function Hero({ qrParams: _qrParams }: Props) {
             Toma una foto de tu mascota
           </span>
         </div>
-
         </div>
 
-        <div className="relative">
+        <div
+          className="relative"
+          style={{ transform: `translate3d(0, ${scrollY * -0.08}px, 0)` }}
+        >
           <div className="absolute -inset-8 rounded-full bg-primary/10 blur-3xl" aria-hidden />
           <img
             src={heroicanOrbit.url}
