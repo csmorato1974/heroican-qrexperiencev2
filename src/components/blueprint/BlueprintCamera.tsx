@@ -93,7 +93,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
       <DialogContent className="max-w-[min(560px,96vw)] hud-panel p-4 sm:p-6 max-h-[95svh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-display text-xl">
-            Conoce a tu engreído 🐶
+            Mira cómo cuidamos a tu engreído&nbsp; 🐶
           </DialogTitle>
         </DialogHeader>
 
