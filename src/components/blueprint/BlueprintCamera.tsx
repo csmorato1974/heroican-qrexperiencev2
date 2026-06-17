@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Camera, RotateCcw, Download, MessageCircle, ShieldCheck } from "lucide-react";
+import { Camera, RotateCcw, Download, MessageCircle, ShieldCheck, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { track } from "@/lib/tracker";
 import { BLUEPRINT_BADGES, type BlueprintBadge } from "./badges";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
@@ -18,6 +19,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
   const imgRef = useRef<HTMLImageElement>(null);
   const [photo, setPhoto] = useState<string | null>(null);
   const [activeBadge, setActiveBadge] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
 
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -36,8 +38,8 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
     if (inputRef.current) inputRef.current.value = "";
   }
 
-  async function download() {
-    if (!photo || !imgRef.current) return;
+  async function buildAnnotatedBlob(): Promise<Blob | null> {
+    if (!photo) return null;
     const img = new Image();
     img.src = photo;
     await new Promise((r) => (img.onload = r));
@@ -69,23 +71,52 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
       ctx.strokeText(label, px + 20 * scale, py + 5 * scale);
       ctx.fillText(label, px + 20 * scale, py + 5 * scale);
     });
-    canvas.toBlob((blob) => {
-      if (!blob) return;
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "heroican-mi-mascota.png";
-      a.click();
-      URL.revokeObjectURL(url);
-      track("blueprint_photo_downloaded", qrParams);
-    }, "image/png");
+
+    return await new Promise<Blob | null>((resolve) =>
+      canvas.toBlob((b) => resolve(b), "image/png"),
+    );
   }
 
-  function shareWhatsapp() {
-    const msg = "Hola Heroican, quiero asesoría personalizada para saber cómo cuidar a mi mascota";
-    const url = `https://wa.me/59164280437?text=${encodeURIComponent(msg)}`;
-    track("blueprint_share_whatsapp", qrParams);
-    window.open(url, "_blank");
+  function triggerDownload(blob: Blob) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "heroican-mi-mascota.png";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  async function download() {
+    const blob = await buildAnnotatedBlob();
+    if (!blob) return;
+    triggerDownload(blob);
+    track("blueprint_photo_downloaded", qrParams);
+  }
+
+  async function sendPhotoViaWhatsapp() {
+    if (sending) return;
+    setSending(true);
+    try {
+      const blob = await buildAnnotatedBlob();
+      if (!blob) return;
+      triggerDownload(blob);
+
+      toast.success("Foto descargada 📸", {
+        description:
+          "Adjúntala en el chat de WhatsApp que se acaba de abrir (toca el clip 📎 y elige la foto).",
+        duration: 8000,
+      });
+
+      await new Promise((r) => setTimeout(r, 700));
+
+      const msg =
+        "Hola Heroican 👋 Te comparto la foto de mi mascota (adjunta en este chat) para que me ayudes a identificar su raza y darme una recomendación personalizada. ¡Gracias!";
+      const url = `https://wa.me/59164280437?text=${encodeURIComponent(msg)}`;
+      track("blueprint_share_whatsapp", qrParams, { withPhoto: true });
+      window.open(url, "_blank");
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -188,11 +219,16 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
               <Button
                 size="sm"
                 variant="outline"
-                onClick={shareWhatsapp}
+                onClick={sendPhotoViaWhatsapp}
+                disabled={sending}
                 className="rounded-full font-bold ml-auto"
               >
-                <MessageCircle className="mr-1.5 h-3.5 w-3.5" />
-                WhatsApp
+                {sending ? (
+                  <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <MessageCircle className="mr-1.5 h-3.5 w-3.5" />
+                )}
+                Enviar por WhatsApp
               </Button>
             </div>
           </div>
