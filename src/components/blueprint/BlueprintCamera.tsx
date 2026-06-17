@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Camera, RotateCcw, Download, MessageCircle, ShieldCheck } from "lucide-react";
+import { Camera, RotateCcw, Download, MessageCircle, ShieldCheck, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { track } from "@/lib/tracker";
 import { BLUEPRINT_BADGES, type BlueprintBadge } from "./badges";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
