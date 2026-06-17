@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, MessageCircle, Check, Minus, ChevronUp } from "lucide-react";
+import { ArrowLeft, MessageCircle, Check, X, Dog } from "lucide-react";
 import { recommend, PRESENTATION_GUIDE } from "@/lib/recommendation";
 import { track, getSessionId } from "@/lib/tracker";
 import { saveLead } from "@/lib/leads";
@@ -91,7 +91,7 @@ export function ChatbotPanel({ qrParams }: Props) {
       consentLocation: false,
     },
   );
-  const [minimized, setMinimized] = useState(false);
+  const [minimized, setMinimized] = useState(true);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [coords, setCoords] = useState<{ lat: number; lng: number } | undefined>();
 
@@ -111,7 +111,9 @@ export function ChatbotPanel({ qrParams }: Props) {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    setMinimized(window.localStorage.getItem(MINIMIZED_KEY) === "1");
+    const stored = window.localStorage.getItem(MINIMIZED_KEY);
+    // Default to minimized (floating button) unless user explicitly opened it
+    setMinimized(stored !== "0");
     track("landing_panel_mounted", qrParams);
   }, [qrParams]);
 
@@ -216,28 +218,35 @@ export function ChatbotPanel({ qrParams }: Props) {
   const progressIndex = ORDER.indexOf(step);
   const progressPct = Math.round((progressIndex / (ORDER.length - 1)) * 100);
 
-  // ===== Minimized bar =====
+  // ===== Floating dog-bot button =====
   if (minimized) {
+    const started = progressIndex > 0;
     return (
       <button
         onClick={() => {
           setMinimized(false);
           track("panel_restored", qrParams);
         }}
-        className="hud-panel fixed bottom-4 right-4 left-4 sm:left-auto sm:w-[360px] z-50 rounded-md px-4 py-3 flex items-center gap-3 group"
+        aria-label="Abrir asistente Heroican"
+        className="fixed bottom-5 right-5 z-50 group flex items-center gap-3"
       >
-        <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-accent text-accent-foreground font-display pulse-glow">
-          H
+        {/* Tooltip / hint bubble */}
+        <span className="hidden sm:flex items-center rounded-2xl rounded-br-sm border border-border bg-card/95 backdrop-blur px-3 py-2 text-xs font-semibold text-foreground shadow-md group-hover:-translate-x-0.5 transition-transform">
+          {started
+            ? `Continuar diagnóstico · ${progressPct}%`
+            : "¡Hola! Soy tu asistente 🐾"}
         </span>
-        <span className="flex-1 text-left">
-          <span className="block text-[11px] font-bold uppercase tracking-wide text-primary">
-            Asistente Heroican
-          </span>
-          <span className="block text-xs text-muted-foreground truncate">
-            Continuar diagnóstico ({progressPct}%)
-          </span>
+        <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg pulse-glow group-hover:scale-105 transition-transform">
+          <Dog className="h-8 w-8" strokeWidth={2.2} />
+          {started && (
+            <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-accent-foreground border-2 border-background">
+              {progressPct}%
+            </span>
+          )}
+          {!started && (
+            <span className="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 rounded-full bg-accent border-2 border-background animate-pulse" />
+          )}
         </span>
-        <ChevronUp className="h-4 w-4 text-accent group-hover:-translate-y-0.5 transition-transform" />
       </button>
     );
   }
@@ -275,14 +284,14 @@ export function ChatbotPanel({ qrParams }: Props) {
           </p>
         </div>
         <button
-          aria-label="Minimizar panel"
+          aria-label="Cerrar panel"
           onClick={() => {
             setMinimized(true);
             track("panel_minimized", qrParams);
           }}
           className="rounded p-1.5 hover:bg-muted text-muted-foreground"
         >
-          <Minus className="h-4 w-4" />
+          <X className="h-4 w-4" />
         </button>
       </div>
 

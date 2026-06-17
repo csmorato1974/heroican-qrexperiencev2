@@ -40,7 +40,7 @@ function Index() {
   }, [qrParams]);
 
   return (
-    <main className="min-h-screen pb-[82svh] sm:pb-0 sm:pr-[460px]">
+    <main className="min-h-screen">
       <Hero qrParams={qrParams} />
       <HowItWorks />
       <Benefits />
