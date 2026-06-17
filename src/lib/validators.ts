@@ -1,0 +1,21 @@
+import { z } from "zod";
+
+// Acepta números PE móviles (9XXXXXXXX, con o sin +51) o formato intl +DDDDDDDD..
+const PHONE_REGEX = /^(?:\+?51)?9\d{8}$|^\+\d{8,15}$/;
+
+export const leadSchema = z.object({
+  tutorName: z.string().trim().min(2, "Ingresa tu nombre").max(80),
+  phone: z
+    .string()
+    .trim()
+    .min(8, "Ingresa un número válido")
+    .max(20)
+    .regex(PHONE_REGEX, "Usa 9XXXXXXXX (Perú) o formato internacional +..."),
+  city: z.string().trim().min(2, "Ingresa tu ciudad").max(60),
+  consentWhatsApp: z.literal(true, {
+    errorMap: () => ({ message: "Necesitamos tu consentimiento para contactarte" }),
+  }),
+  consentLocation: z.boolean().optional(),
+});
+
+export type LeadFormValues = z.infer<typeof leadSchema>;
