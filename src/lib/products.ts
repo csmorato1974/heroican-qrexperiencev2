@@ -2,7 +2,7 @@ import type { Product } from "@/types/domain";
 
 // Editable por el equipo comercial. Precios y URLs referenciales.
 // `storeUrl` debe apuntar al producto en la tienda oficial Heroican.
-const STORE_BASE = "https://heroican.pe";
+const STORE_URL = "https://heroican.com/tienda/";
 
 export const PRODUCTS: Product[] = [
   {
@@ -18,7 +18,7 @@ export const PRODUCTS: Product[] = [
     benefits: ["Mínimo 20% de proteína", "Canela funcional", "Vitaminas y minerales"],
     ingredientsSummary:
       "Maíz, arroz, harina de carne, harina de pescado, trigo, torta de soja, aceite de pollo, hidrolizado enzimático de hígado de pollo, premezcla vitamínico mineral, canela, DL metionina.",
-    storeUrl: `${STORE_BASE}/producto/heroican-perro-adulto-raza-grande/`,
+    storeUrl: STORE_URL,
   },
   {
     id: "adulto-pequena",
@@ -33,7 +33,7 @@ export const PRODUCTS: Product[] = [
     benefits: ["Proteína de alta digestibilidad", "Hidrolizados palatables", "Canela funcional"],
     ingredientsSummary:
       "Base nutricional con proteína animal, cereales, hidrolizados, vitaminas, minerales y canela funcional.",
-    storeUrl: `${STORE_BASE}/producto/heroican-perro-adulto-raza-pequena/`,
+    storeUrl: STORE_URL,
   },
   {
     id: "cachorro-grande",
@@ -48,7 +48,7 @@ export const PRODUCTS: Product[] = [
     benefits: ["Soporte de crecimiento", "Leche incluida", "Canela funcional"],
     ingredientsSummary:
       "Base nutricional con proteína, cereales, hidrolizados, leche, vitaminas, minerales y canela.",
-    storeUrl: `${STORE_BASE}/producto/heroican-perro-cachorro-raza-grande/`,
+    storeUrl: STORE_URL,
   },
   {
     id: "cachorro-pequena",
@@ -63,7 +63,7 @@ export const PRODUCTS: Product[] = [
     benefits: ["Crecimiento saludable", "Hidrolizados palatables", "Leche incluida"],
     ingredientsSummary:
       "Maíz, arroz, harina de carne, harina de pescado, trigo, torta de soja, aceite de pollo, hidrolizado enzimático de hígado de pollo, leche, premezcla vitamínico mineral, canela, DL metionina.",
-    storeUrl: `${STORE_BASE}/producto/heroican-perro-cachorro-raza-pequena/`,
+    storeUrl: STORE_URL,
   },
 ];
 
