@@ -17,7 +17,7 @@ export function ARPreview({ qrParams }: { qrParams: QrParams }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-20">
+    <section id="experiencia-camara" className="mx-auto max-w-6xl px-4 py-20 scroll-mt-20">
       <div className="hud-panel rounded-3xl p-8 sm:p-12" style={{ background: "var(--gradient-hero)" }}>
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
           <div>
