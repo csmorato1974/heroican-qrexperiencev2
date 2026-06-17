@@ -1,14 +1,11 @@
-import { ChevronsRight, PawPrint } from "lucide-react";
+import { ChevronsRight } from "lucide-react";
 import type { QrParams } from "@/types/domain";
 
 interface Props {
   qrParams: QrParams;
 }
 
-export function Hero({ qrParams }: Props) {
-  const qrId = qrParams.qr_id ?? "QR-DEMO-0001";
-  const lote = qrParams.lote ?? "LT-2026-06";
-  const campania = qrParams.campania ?? "ENTRY-PILOT";
+export function Hero({ qrParams: _qrParams }: Props) {
 
   return (
     <section className="relative overflow-hidden">
