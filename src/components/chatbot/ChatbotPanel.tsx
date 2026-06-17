@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, MessageCircle, Check, X, Dog } from "lucide-react";
+import { ArrowLeft, MessageCircle, Check, X, Dog, ShoppingBag } from "lucide-react";
 import { recommend, PRESENTATION_GUIDE } from "@/lib/recommendation";
 import { track, getSessionId } from "@/lib/tracker";
 import { saveLead } from "@/lib/leads";
