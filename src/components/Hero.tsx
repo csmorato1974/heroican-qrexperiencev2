@@ -61,6 +61,17 @@ export function Hero({ qrParams: _qrParams }: Props) {
             </div>
           ))}
         </div>
+        </div>
+
+        <div className="relative">
+          <div className="absolute -inset-8 rounded-full bg-primary/10 blur-3xl" aria-hidden />
+          <img
+            src={heroicanOrbit.url}
+            alt="Empaque Heroican con órbitas de beneficios nutricionales"
+            className="relative w-full h-auto select-none"
+            loading="eager"
+          />
+        </div>
       </div>
     </section>
   );
