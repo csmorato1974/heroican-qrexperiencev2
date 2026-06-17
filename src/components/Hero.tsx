@@ -12,11 +12,18 @@ interface Props {
 
 export function Hero({ qrParams: _qrParams }: Props) {
   const [scrollY, setScrollY] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.5;
+    }
   }, []);
 
   return (
