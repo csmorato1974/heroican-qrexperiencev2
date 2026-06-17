@@ -254,9 +254,9 @@ export function ChatbotPanel({ qrParams }: Props) {
   // ===== Full panel =====
   return (
     <aside
-      className="hud-panel scanline fixed z-40 flex flex-col overflow-hidden
-        inset-x-2 bottom-2 top-auto h-[78svh] rounded-lg
-        sm:inset-x-auto sm:right-4 sm:bottom-4 sm:top-24 sm:w-[420px] sm:h-auto"
+      className="hud-panel fixed z-50 flex flex-col overflow-hidden shadow-2xl
+        inset-x-3 bottom-3 top-auto h-[80svh] rounded-2xl
+        sm:inset-x-auto sm:right-5 sm:bottom-24 sm:top-auto sm:w-[380px] sm:h-[600px] sm:max-h-[calc(100svh-7rem)]"
     >
       {/* Header */}
       <div className="flex items-center gap-3 border-b border-border px-4 py-3 bg-secondary/50">
