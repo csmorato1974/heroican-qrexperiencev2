@@ -16,8 +16,6 @@ export function Hero({ qrParams: _qrParams }: Props) {
 
       <div className="mx-auto max-w-6xl px-4 pt-10 pb-16 sm:pt-16 sm:pb-24">
         <h1 className="font-display text-4xl sm:text-6xl font-semibold leading-[1.02] max-w-3xl">
-          Misión 01:
-          <br />
           Diagnóstico nutricional para tu{" "}
           <span className="italic text-primary">engreído</span>
           <span className="text-accent">.</span>
