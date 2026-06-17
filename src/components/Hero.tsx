@@ -79,23 +79,20 @@ export function Hero({ qrParams: _qrParams }: Props) {
 
           <div
             role="img"
-            aria-label="Empaque Heroican con órbitas de beneficios nutricionales en secuencia animada"
-            className="hero-sequence relative mx-auto aspect-[16/9] w-full max-w-[860px]"
+            aria-label="Animación del empaque Heroican"
+            className="hero-video-wrap relative mx-auto aspect-[16/9] w-full max-w-[860px]"
           >
-            {heroFrames.map((frame, index) => (
-              <img
-                key={frame}
-                src={frame}
-                alt=""
-                aria-hidden="true"
-                loading={index === 0 ? "eager" : "lazy"}
-                className="hero-sequence-frame absolute inset-0 h-full w-full select-none object-contain"
-                style={{
-                  animationDelay: `${index * -1}s`,
-                  animationDuration: `${heroFrames.length}s`,
-                }}
-              />
-            ))}
+            <video
+              ref={videoRef}
+              src={heroVideo.url}
+              poster={heroSeq01.url}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              className="hero-video absolute inset-0 h-full w-full select-none object-contain"
+            />
           </div>
         </div>
       </div>
