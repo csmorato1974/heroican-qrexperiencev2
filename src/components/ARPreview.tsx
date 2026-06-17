@@ -4,7 +4,7 @@ import { Activity, Sparkles, Wind, Zap, Camera } from "lucide-react";
 import { track } from "@/lib/tracker";
 import { BlueprintCamera } from "./blueprint/BlueprintCamera";
 import type { QrParams } from "@/types/domain";
-import heroicanPack from "@/assets/heroican-pack.png.asset.json";
+import heroicanPack from "@/assets/heroican-ar-phone.png.asset.json";
 
 const facets = [
   { icon: Wind, title: "Confort digestivo" },
