@@ -230,11 +230,11 @@ export function ChatbotPanel({ qrParams }: Props) {
           H
         </span>
         <span className="flex-1 text-left">
-          <span className="block font-mono text-[10px] tracking-[0.2em] text-accent">
-            ASISTENTE · STANDBY
+          <span className="block text-[11px] font-bold uppercase tracking-wide text-primary">
+            Asistente Heroican
           </span>
           <span className="block text-xs text-muted-foreground truncate">
-            Reanudar misión ({progressPct}%)
+            Continuar diagnóstico ({progressPct}%)
           </span>
         </span>
         <ChevronUp className="h-4 w-4 text-accent group-hover:-translate-y-0.5 transition-transform" />
@@ -267,11 +267,11 @@ export function ChatbotPanel({ qrParams }: Props) {
           H
         </span>
         <div className="flex-1 min-w-0">
-          <p className="font-mono text-[10px] tracking-[0.2em] text-accent">
-            ASISTENTE · ONLINE
+          <p className="text-[11px] font-bold uppercase tracking-wide text-primary">
+            Asistente Heroican
           </p>
           <p className="text-xs text-muted-foreground truncate">
-            Misión 01 — Diagnóstico
+            Diagnóstico nutricional
           </p>
         </div>
         <button
@@ -298,12 +298,9 @@ export function ChatbotPanel({ qrParams }: Props) {
       <div className="flex-1 overflow-y-auto px-4 py-5 space-y-4">
         {step === "welcome" && (
           <Bubble>
-            <span className="font-mono text-[10px] tracking-[0.18em] text-accent block mb-2">
-              [ INIT_SEQUENCE ]
-            </span>
-            Hola, soy tu <strong className="text-accent">Asistente Heroican</strong>.
-            Te guío en una secuencia rápida para recomendar el alimento ideal para
-            tu engreído.
+            ¡Hola! Soy tu <strong className="text-primary">Asistente Heroican</strong>.
+            Te haré unas preguntas rápidas para recomendarte el alimento ideal
+            para tu engreído. 🐾
           </Bubble>
         )}
 
@@ -390,26 +387,23 @@ export function ChatbotPanel({ qrParams }: Props) {
         {step === "result" && recommended && (
           <>
             <Bubble>
-              <span className="font-mono text-[10px] tracking-[0.18em] text-accent block mb-2">
-                [ MATCH_FOUND ]
-              </span>
-              Para <strong>{answers.petName}</strong> el loadout óptimo es:
+              ¡Listo! Para <strong>{answers.petName}</strong> recomendamos:
             </Bubble>
-            <div className="hud-panel corner-frame rounded-md p-4">
-              <p className="font-display text-lg text-accent">
+            <div className="hud-panel rounded-2xl p-4">
+              <p className="font-display text-lg text-primary">
                 {recommended.name}
               </p>
-              <p className="mt-1 font-mono text-[10px] tracking-[0.18em] text-cyan">
+              <p className="mt-1 text-xs font-semibold text-muted-foreground">
                 {recommended.lifeStage} · {recommended.breedSize}
               </p>
-              <ul className="mt-4 space-y-2 text-sm font-mono">
+              <ul className="mt-4 space-y-2 text-sm">
                 {recommended.presentations.map((p) => (
                   <li
                     key={p.sizeKg}
-                    className="flex justify-between border-b border-dashed border-border/60 pb-1"
+                    className="flex justify-between border-b border-dashed border-border pb-1"
                   >
                     <span>
-                      <strong className="text-accent">{p.sizeKg} KG</strong>{" "}
+                      <strong className="text-primary">{p.sizeKg} kg</strong>{" "}
                       <span className="text-muted-foreground">
                         — S/ {p.pricePen}
                       </span>
@@ -493,10 +487,7 @@ export function ChatbotPanel({ qrParams }: Props) {
         {step === "whatsapp" && recommended && (
           <>
             <Bubble>
-              <span className="font-mono text-[10px] tracking-[0.18em] text-accent block mb-2">
-                [ MISSION_COMPLETE ]
-              </span>
-              Misión completada. A un mensaje de distancia.
+              🎉 ¡Todo listo! Estás a un mensaje de recibir tu asesoría.
             </Bubble>
             <div className="hud-panel rounded-md p-4 text-sm">
               Te derivaremos al WhatsApp comercial con la información de{" "}
