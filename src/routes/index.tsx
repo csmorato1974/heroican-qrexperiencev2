@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
+import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { HowItWorks } from "@/components/HowItWorks";
 import { Benefits } from "@/components/Benefits";
@@ -41,6 +42,7 @@ function Index() {
 
   return (
     <main className="min-h-screen">
+      <Header />
       <Hero qrParams={qrParams} />
       <HowItWorks />
       <Benefits />
