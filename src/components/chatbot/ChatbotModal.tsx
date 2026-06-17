@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, MessageCircle, Check } from "lucide-react";
 import { recommend, PRESENTATION_GUIDE } from "@/lib/recommendation";
-import { track } from "@/lib/tracker";
+import { track, getSessionId } from "@/lib/tracker";
 import { saveLead } from "@/lib/leads";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 import { leadSchema } from "@/lib/validators";
@@ -92,7 +92,7 @@ export function ChatbotModal({ open, onOpenChange, qrParams }: Props) {
 
     saveLead({
       id: leadId,
-      sessionId: "",
+      sessionId: getSessionId(),
       tutorName: leadForm.tutorName.trim(),
       phone: leadForm.phone.trim(),
       city: leadForm.city.trim(),
