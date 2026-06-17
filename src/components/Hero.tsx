@@ -1,30 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Camera, ChevronsRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { QrParams } from "@/types/domain";
 import heroSeq01 from "@/assets/hero-seq-01.png.asset.json";
-import heroSeq02 from "@/assets/hero-seq-02.png.asset.json";
-import heroSeq03 from "@/assets/hero-seq-03.png.asset.json";
-import heroSeq04 from "@/assets/hero-seq-04.png.asset.json";
-import heroSeq05 from "@/assets/hero-seq-05.png.asset.json";
-import heroSeq06 from "@/assets/hero-seq-06.png.asset.json";
-import heroSeq07 from "@/assets/hero-seq-07.png.asset.json";
-import heroSeq08 from "@/assets/hero-seq-08.png.asset.json";
-import heroSeq09 from "@/assets/hero-seq-09.png.asset.json";
-import heroSeq10 from "@/assets/hero-seq-10.png.asset.json";
+import heroVideo from "@/assets/hero-video.mp4.asset.json";
 
-const heroFrames = [
-  heroSeq01.url,
-  heroSeq02.url,
-  heroSeq03.url,
-  heroSeq04.url,
-  heroSeq05.url,
-  heroSeq06.url,
-  heroSeq07.url,
-  heroSeq08.url,
-  heroSeq09.url,
-  heroSeq10.url,
-];
 
 interface Props {
   qrParams: QrParams;
