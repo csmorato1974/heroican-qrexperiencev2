@@ -6,10 +6,10 @@ import { BlueprintCamera } from "./blueprint/BlueprintCamera";
 import type { QrParams } from "@/types/domain";
 
 const facets = [
-  { icon: Wind, code: "F01", title: "Confort digestivo" },
-  { icon: Zap, code: "F02", title: "Vitalidad y energía" },
-  { icon: Sparkles, code: "F03", title: "Piel y pelaje" },
-  { icon: Activity, code: "F04", title: "Palatabilidad" },
+  { icon: Wind, title: "Confort digestivo" },
+  { icon: Zap, title: "Vitalidad y energía" },
+  { icon: Sparkles, title: "Piel y pelaje" },
+  { icon: Activity, title: "Palatabilidad" },
 ];
 
 export function ARPreview({ qrParams }: { qrParams: QrParams }) {
@@ -17,44 +17,38 @@ export function ARPreview({ qrParams }: { qrParams: QrParams }) {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-20">
-      <div className="hud-panel scanline corner-frame rounded-lg p-8 sm:p-12">
+      <div className="hud-panel rounded-3xl p-8 sm:p-12" style={{ background: "var(--gradient-hero)" }}>
         <div className="flex items-center gap-3">
-          <span className="hud-chip">SECTOR · 04</span>
-          <span className="font-mono text-[10px] tracking-[0.2em] text-cyan blink">
-            ● CAM_READY
-          </span>
+          <span className="hud-chip">Experiencia con cámara</span>
         </div>
         <h2 className="mt-4 text-3xl sm:text-4xl font-semibold">
-          Blueprint Interno<span className="text-accent">.</span>
+          Conoce a tu engreído por dentro<span className="text-accent">.</span>
         </h2>
-        <p className="mt-2 max-w-xl text-sm text-muted-foreground">
-          Saca una foto de tu mascota y desbloquea badges con los beneficios
-          Heroican anclados directamente sobre la imagen.
+        <p className="mt-2 max-w-xl text-base text-muted-foreground">
+          Toma una foto de tu mascota y descubre, sobre la imagen, los beneficios
+          Heroican que la cuidan cada día.
         </p>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {facets.map((f) => (
-            <div key={f.code} className="hud-panel rounded-md p-4">
-              <div className="flex items-center justify-between">
-                <f.icon className="h-6 w-6 text-accent" />
-                <span className="font-mono text-[10px] tracking-[0.18em] text-cyan">
-                  {f.code}
-                </span>
-              </div>
+            <div key={f.title} className="hud-panel rounded-2xl p-4">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+                <f.icon className="h-5 w-5 text-primary" />
+              </span>
               <p className="mt-3 font-display text-base">{f.title}</p>
             </div>
           ))}
         </div>
 
         <Button
-          className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 font-mono uppercase tracking-[0.18em] text-xs pulse-glow"
+          className="mt-8 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 h-12 font-bold"
           onClick={() => {
             setOpen(true);
             track("blueprint_camera_opened", qrParams);
           }}
         >
-          <Camera className="mr-2 h-4 w-4" />
-          Escanear a mi mascota
+          <Camera className="mr-2 h-5 w-5" />
+          Tomar foto a mi mascota
         </Button>
       </div>
 

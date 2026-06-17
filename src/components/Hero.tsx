@@ -1,4 +1,4 @@
-import { ChevronsRight } from "lucide-react";
+import { ChevronsRight, PawPrint } from "lucide-react";
 import type { QrParams } from "@/types/domain";
 
 interface Props {
@@ -16,62 +16,48 @@ export function Hero({ qrParams }: Props) {
         className="absolute inset-0 -z-10"
         style={{ background: "var(--gradient-hero)" }}
       />
-      <div
-        className="absolute inset-0 -z-10 opacity-[0.07] mix-blend-screen"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 30%, var(--accent), transparent 35%), radial-gradient(circle at 80% 70%, var(--cyan), transparent 40%)",
-        }}
-      />
 
       <div className="mx-auto max-w-6xl px-4 pt-10 pb-16 sm:pt-16 sm:pb-24">
         <div className="flex flex-wrap items-center gap-2">
           <span className="hud-chip">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent pulse-glow" />
-            SYS · ONLINE
+            <PawPrint className="h-3.5 w-3.5" />
+            Asistente activo
           </span>
-          <span className="hud-chip" style={{ color: "var(--cyan)" }}>
-            QR_ID · {qrId}
-          </span>
-          <span className="hud-chip" style={{ color: "var(--cyan)" }}>
-            LOTE · {lote}
-          </span>
-          <span className="hud-chip">CAMPAÑA · {campania}</span>
+          <span className="hud-chip">QR · {qrId}</span>
+          <span className="hud-chip">Lote · {lote}</span>
+          <span className="hud-chip">Campaña · {campania}</span>
         </div>
 
         <h1 className="mt-8 font-display text-4xl sm:text-6xl font-semibold leading-[1.02] max-w-3xl">
-          MISIÓN 01<span className="text-accent">·</span>
+          Misión 01:
           <br />
-          Diagnóstico Nutricional para tu{" "}
-          <span className="italic text-primary">engreído</span>.
+          Diagnóstico nutricional para tu{" "}
+          <span className="italic text-primary">engreído</span>
+          <span className="text-accent">.</span>
         </h1>
 
-        <p className="mt-5 max-w-xl text-sm sm:text-base text-muted-foreground">
-          Tu asistente de campo ya está activo. Responde la secuencia en el panel
-          de la derecha y recibe la recomendación Heroican en menos de 60s.
+        <p className="mt-5 max-w-xl text-base text-muted-foreground">
+          Tu asistente Heroican ya está listo. Responde unas preguntas en el
+          panel y recibe la recomendación ideal en menos de 60 segundos.
         </p>
 
-        <div className="mt-8 flex items-center gap-3 text-xs font-mono uppercase tracking-[0.18em] text-accent">
+        <div className="mt-8 flex items-center gap-2 text-sm font-semibold text-primary">
           <ChevronsRight className="h-4 w-4 animate-pulse" />
-          <span>Panel del asistente: activo</span>
+          <span>Mira el panel del asistente →</span>
         </div>
 
-        {/* HUD stats row */}
         <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl">
           {[
-            { k: "TASA QR", v: "34.6%" },
-            { k: "ENGAGEMENT", v: "00:27" },
-            { k: "RECOMPRA", v: "99.6%" },
-            { k: "ROI ADQ.", v: "-40%" },
+            { k: "Tasa QR", v: "34.6%" },
+            { k: "Engagement", v: "00:27" },
+            { k: "Recompra", v: "99.6%" },
+            { k: "ROI adquisición", v: "-40%" },
           ].map((s) => (
-            <div
-              key={s.k}
-              className="hud-panel corner-frame rounded-md p-3"
-            >
-              <p className="font-mono text-[10px] tracking-[0.18em] text-muted-foreground">
+            <div key={s.k} className="hud-panel rounded-2xl p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
                 {s.k}
               </p>
-              <p className="mt-1 font-display text-2xl text-accent">{s.v}</p>
+              <p className="mt-1 font-display text-2xl text-primary">{s.v}</p>
             </div>
           ))}
         </div>
