@@ -1,6 +1,7 @@
 import { Camera, ChevronsRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { QrParams } from "@/types/domain";
+import heroicanOrbit from "@/assets/heroican-orbit.png.asset.json";
 
 interface Props {
   qrParams: QrParams;
@@ -15,7 +16,9 @@ export function Hero({ qrParams: _qrParams }: Props) {
         style={{ background: "var(--gradient-hero)" }}
       />
 
-      <div className="mx-auto max-w-6xl px-4 pt-10 pb-16 sm:pt-16 sm:pb-24">
+      <div className="mx-auto max-w-6xl px-4 pt-10 pb-16 sm:pt-16 sm:pb-24 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+        <div>
+
         <h1 className="font-display text-4xl sm:text-6xl font-semibold leading-[1.02] max-w-3xl">
           Diagnóstico nutricional para tu{" "}
           <span className="italic text-primary">engreído</span>
