@@ -25,6 +25,7 @@ export interface Product {
   presentations: Presentation[];
   benefits: string[];
   ingredientsSummary: string;
+  storeUrl: string;
 }
 
 export interface QrParams {
