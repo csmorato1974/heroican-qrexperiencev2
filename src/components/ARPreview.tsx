@@ -55,7 +55,7 @@ export function ARPreview({ qrParams }: { qrParams: QrParams }) {
             </Button>
           </div>
 
-          <div className="relative">
+          <div id="foto-mascota" className="relative scroll-mt-24">
             <div className="absolute -inset-6 rounded-3xl bg-primary/5 blur-2xl" aria-hidden />
             <img
               src={heroicanPack.url}

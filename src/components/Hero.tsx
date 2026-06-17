@@ -56,7 +56,7 @@ export function Hero({ qrParams: _qrParams }: Props) {
             asChild
             className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 h-12 font-bold"
           >
-            <a href="#experiencia-camara">
+            <a href="#foto-mascota">
               <Camera className="mr-2 h-5 w-5" />
               Probar la experiencia con cámara
             </a>
