@@ -1,20 +1,23 @@
-# Reposicionar badges anatómicos sobre la foto de la mascota
+## Cambio
 
-Actualizar las coordenadas `x/y` de cada badge en `src/components/blueprint/badges.ts` para que coincidan con la anatomía típica de una mascota fotografiada de frente/cuerpo entero (la foto se renderiza con `aspect-ratio: 3/4` y `object-cover`, por lo que la cabeza queda arriba-centro y las patas abajo).
+Agregar un mensaje breve y discreto dentro del modal "Toma una foto de tu mascota" (componente `src/components/blueprint/BlueprintCamera.tsx`), visible después de que el usuario tome la foto, que recomiende descargar la imagen con los badges y compartirla por WhatsApp para recibir más información personalizada sobre el cuidado de su mascota.
 
-## Cambios
+## Ubicación
 
-`src/components/blueprint/badges.ts` — sólo reasignar `x`, `y` y `side`:
+En la vista posterior a la captura (rama `photo` ya cargada), justo encima o debajo de la fila de botones `Repetir / Descargar / WhatsApp`, agregar un pequeño texto tipo "hint":
 
-| Code | Título            | Zona anatómica   | x (%) | y (%) | side  |
-|------|-------------------|------------------|-------|-------|-------|
-| F01  | Confort digestivo | Estómago/vientre | 50    | 68    | right |
-| F02  | Vitalidad         | Pecho/patas      | 50    | 82    | left  |
-| F03  | Piel y pelaje     | Lomo/espalda     | 65    | 40    | right |
-| F04  | Palatabilidad     | Boca/hocico      | 50    | 22    | left  |
+- Tipografía: `text-xs text-muted-foreground`
+- Ícono pequeño (`Sparkles` o `MessageCircle` ya importado) a la izquierda
+- Centrado, con un poco de margen superior
 
-No se tocan textos, lógica, ni el renderer (`BlueprintCamera.tsx`, `Hotspot`). Los hotspots siguen siendo posiciones relativas en porcentaje sobre la imagen, así que los nuevos valores aplican a cualquier foto cargada.
+## Texto propuesto
 
-## Nota
+> ✨ Descarga la foto y compártela por WhatsApp para recibir consejos personalizados sobre tu mascota.
 
-Como cada foto de mascota es distinta (pose, encuadre, zoom), estos valores son una aproximación calibrada al centro del encuadre típico. Si quieres que el usuario pueda arrastrar los badges para ajustarlos a su foto específica, dímelo y lo añado como mejora aparte.
+(Ajustable si prefieres otro copy.)
+
+## Detalles técnicos
+
+- Único archivo modificado: `src/components/blueprint/BlueprintCamera.tsx`
+- Se inserta un `<p>` dentro del bloque `{photo && ...}`, antes del `<div className="flex flex-wrap gap-2">` con los botones.
+- Sin cambios en lógica, tracking, ni estilos globales.

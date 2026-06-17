@@ -167,6 +167,11 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
               ))}
             </div>
 
+            <p className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground text-center px-2">
+              <MessageCircle className="h-3 w-3 shrink-0" />
+              Descarga la foto y compártela por WhatsApp para recibir consejos personalizados sobre tu mascota.
+            </p>
+
             <div className="flex flex-wrap gap-2">
               <Button
                 variant="outline"
