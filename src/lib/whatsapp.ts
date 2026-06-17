@@ -1,4 +1,4 @@
-export const WA_NUMBER = "51942799091";
+export const WA_NUMBER = "59161212107";
 
 export interface WaTemplateVars {
   petName: string;
