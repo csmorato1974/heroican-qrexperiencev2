@@ -18,17 +18,7 @@ export function Hero({ qrParams }: Props) {
       />
 
       <div className="mx-auto max-w-6xl px-4 pt-10 pb-16 sm:pt-16 sm:pb-24">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="hud-chip">
-            <PawPrint className="h-3.5 w-3.5" />
-            Asistente activo
-          </span>
-          <span className="hud-chip">QR · {qrId}</span>
-          <span className="hud-chip">Lote · {lote}</span>
-          <span className="hud-chip">Campaña · {campania}</span>
-        </div>
-
-        <h1 className="mt-8 font-display text-4xl sm:text-6xl font-semibold leading-[1.02] max-w-3xl">
+        <h1 className="font-display text-4xl sm:text-6xl font-semibold leading-[1.02] max-w-3xl">
           Misión 01:
           <br />
           Diagnóstico nutricional para tu{" "}
