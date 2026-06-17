@@ -43,16 +43,6 @@ export function ARPreview({ qrParams }: { qrParams: QrParams }) {
               ))}
             </div>
 
-            <Button
-              className="mt-8 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 h-12 font-bold"
-              onClick={() => {
-                setOpen(true);
-                track("blueprint_camera_opened", qrParams);
-              }}
-            >
-              <Camera className="mr-2 h-5 w-5" />
-              Tomar foto a mi mascota
-            </Button>
           </div>
 
           <div id="foto-mascota" className="relative scroll-mt-24">
@@ -65,7 +55,21 @@ export function ARPreview({ qrParams }: { qrParams: QrParams }) {
             />
           </div>
         </div>
+
+        <div className="mt-8 flex justify-center">
+          <Button
+            className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 h-12 font-bold"
+            onClick={() => {
+              setOpen(true);
+              track("blueprint_camera_opened", qrParams);
+            }}
+          >
+            <Camera className="mr-2 h-5 w-5" />
+            Tomar foto a mi mascota
+          </Button>
+        </div>
       </div>
+
 
       <BlueprintCamera open={open} onOpenChange={setOpen} qrParams={qrParams} />
     </section>
