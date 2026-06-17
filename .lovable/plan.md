@@ -1,26 +1,20 @@
-# Plan
+# Reposicionar badges anatómicos sobre la foto de la mascota
 
-Voy a reemplazar la imagen fija del hero por una animación frame-by-frame con tus 10 imágenes, manteniendo el layout actual del hero y su efecto de parallax suave.
+Actualizar las coordenadas `x/y` de cada badge en `src/components/blueprint/badges.ts` para que coincidan con la anatomía típica de una mascota fotografiada de frente/cuerpo entero (la foto se renderiza con `aspect-ratio: 3/4` y `object-cover`, por lo que la cabeza queda arriba-centro y las patas abajo).
 
-## Qué voy a hacer
+## Cambios
 
-1. Crear los assets de tus 10 imágenes para poder usarlas dentro del proyecto.
-2. Reemplazar la imagen actual del bloque derecho del hero por un componente/sección animada que superponga los 10 frames.
-3. Aplicar una animación CSS por pasos para que la secuencia cambie imagen por imagen, sin video ni canvas.
-4. Mantener el tamaño, proporción y composición del hero para que no se rompa el diseño actual.
-5. Ajustar el comportamiento responsive para que la animación se vea bien en desktop y mobile.
+`src/components/blueprint/badges.ts` — sólo reasignar `x`, `y` y `side`:
 
-## Resultado esperado
+| Code | Título            | Zona anatómica   | x (%) | y (%) | side  |
+|------|-------------------|------------------|-------|-------|-------|
+| F01  | Confort digestivo | Estómago/vientre | 50    | 68    | right |
+| F02  | Vitalidad         | Pecho/patas      | 50    | 82    | left  |
+| F03  | Piel y pelaje     | Lomo/espalda     | 65    | 40    | right |
+| F04  | Palatabilidad     | Boca/hocico      | 50    | 22    | left  |
 
-- La imagen del hero ya no será la actual estática.
-- En su lugar se verá una secuencia visual con tus 10 imágenes.
-- La transición será tipo frame-by-frame, como una animación de imágenes consecutivas.
-- El resto del hero (texto, CTA y fondo) quedará intacto.
+No se tocan textos, lógica, ni el renderer (`BlueprintCamera.tsx`, `Hotspot`). Los hotspots siguen siendo posiciones relativas en porcentaje sobre la imagen, así que los nuevos valores aplican a cualquier foto cargada.
 
-## Detalles técnicos
+## Nota
 
-- Se tocará principalmente `src/components/Hero.tsx`.
-- Agregaré los 10 assets de imagen al proyecto.
-- La animación se resolverá con `@keyframes` en `src/styles.css` o con clases utilitarias según convenga.
-- Usaré capas absolutas u opacidad por frame para lograr el efecto de “trasposición” imagen por imagen.
-- No cambiaré lógica del CTA ni otras secciones fuera del hero.
+Como cada foto de mascota es distinta (pose, encuadre, zoom), estos valores son una aproximación calibrada al centro del encuadre típico. Si quieres que el usuario pueda arrastrar los badges para ajustarlos a su foto específica, dímelo y lo añado como mejora aparte.
