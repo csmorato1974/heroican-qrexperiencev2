@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Camera, ChevronsRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { QrParams } from "@/types/domain";
 import heroSeq01 from "@/assets/hero-seq-01.png.asset.json";
-import heroVideo from "@/assets/hero-video.mp4.asset.json";
 
 
 interface Props {
@@ -12,7 +11,6 @@ interface Props {
 
 export function Hero({ qrParams: _qrParams }: Props) {
   const [scrollY, setScrollY] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
@@ -20,11 +18,6 @@ export function Hero({ qrParams: _qrParams }: Props) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 0.5;
-    }
-  }, []);
 
   return (
     <section className="relative overflow-hidden">
@@ -45,8 +38,9 @@ export function Hero({ qrParams: _qrParams }: Props) {
         />
       </div>
 
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 pt-10 pb-16 sm:pt-16 sm:pb-24 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+      <div className="mx-auto max-w-6xl px-4 pt-10 pb-16 sm:pt-16 sm:pb-24">
         <div>
+
           <h1 className="max-w-3xl font-display text-4xl leading-[1.02] font-semibold sm:text-6xl">
             Diagnóstico nutricional para tu{" "}
             <span className="italic text-primary">engreído</span>
@@ -74,35 +68,8 @@ export function Hero({ qrParams: _qrParams }: Props) {
             </span>
           </div>
         </div>
-
-        <div
-          className="relative"
-          style={{ transform: `translate3d(0, ${scrollY * -0.08}px, 0)` }}
-        >
-          <div
-            className="absolute -inset-8 rounded-full bg-primary/10 blur-3xl"
-            aria-hidden
-          />
-
-          <div
-            role="img"
-            aria-label="Animación del empaque Heroican"
-            className="hero-video-wrap relative mx-auto aspect-[16/9] w-full max-w-[860px]"
-          >
-            <video
-              ref={videoRef}
-              src={heroVideo.url}
-              poster={heroSeq01.url}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              className="hero-video absolute inset-0 h-full w-full select-none object-contain"
-            />
-          </div>
-        </div>
       </div>
+
     </section>
   );
 }
