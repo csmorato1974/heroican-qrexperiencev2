@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-
+import { HowItWorks } from "@/components/HowItWorks";
 import { Benefits } from "@/components/Benefits";
 import { ARPreview } from "@/components/ARPreview";
 import { ProductsMatrix } from "@/components/ProductsMatrix";
@@ -44,6 +44,7 @@ function Index() {
     <main className="min-h-screen">
       <Header />
       <Hero qrParams={qrParams} />
+      <HowItWorks />
       <Benefits />
       <ARPreview qrParams={qrParams} />
       <ProductsMatrix />

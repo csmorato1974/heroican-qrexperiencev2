@@ -3,7 +3,7 @@ import { Camera, ChevronsRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { QrParams } from "@/types/domain";
 import heroSeq01 from "@/assets/hero-seq-01.png.asset.json";
-import heroVideo from "@/assets/hero-video-vertical.mp4.asset.json";
+import heroVideo from "@/assets/hero-video.mp4.asset.json";
 
 
 interface Props {
@@ -87,17 +87,18 @@ export function Hero({ qrParams: _qrParams }: Props) {
           <div
             role="img"
             aria-label="Animación del empaque Heroican"
-            className="hero-video-wrap relative mx-auto w-full max-w-[420px] aspect-[9/16] sm:max-w-[480px]"
+            className="hero-video-wrap relative mx-auto aspect-[16/9] w-full max-w-[860px]"
           >
             <video
               ref={videoRef}
               src={heroVideo.url}
+              poster={heroSeq01.url}
               autoPlay
               muted
               loop
               playsInline
               preload="auto"
-              className="hero-video absolute inset-0 h-full w-full select-none object-cover rounded-3xl"
+              className="hero-video absolute inset-0 h-full w-full select-none object-contain"
             />
           </div>
         </div>
