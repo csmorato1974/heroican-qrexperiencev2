@@ -75,35 +75,8 @@ export function Hero({ qrParams: _qrParams }: Props) {
             </span>
           </div>
         </div>
-
-        <div
-          className="relative"
-          style={{ transform: `translate3d(0, ${scrollY * -0.08}px, 0)` }}
-        >
-          <div
-            className="absolute -inset-8 rounded-full bg-primary/10 blur-3xl"
-            aria-hidden
-          />
-
-          <div
-            role="img"
-            aria-label="Animación del empaque Heroican"
-            className="hero-video-wrap relative mx-auto aspect-[16/9] w-full max-w-[860px]"
-          >
-            <video
-              ref={videoRef}
-              src={heroVideo.url}
-              poster={heroSeq01.url}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              className="hero-video absolute inset-0 h-full w-full select-none object-contain"
-            />
-          </div>
-        </div>
       </div>
+
     </section>
   );
 }
