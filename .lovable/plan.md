@@ -1,23 +1,27 @@
 ## Cambio
 
-Agregar un mensaje breve y discreto dentro del modal "Toma una foto de tu mascota" (componente `src/components/blueprint/BlueprintCamera.tsx`), visible después de que el usuario tome la foto, que recomiende descargar la imagen con los badges y compartirla por WhatsApp para recibir más información personalizada sobre el cuidado de su mascota.
+Agregar el video vertical subido (`video_vertical.mp4`) al componente `src/components/Hero.tsx` y mostrarlo de forma responsive junto al texto principal.
 
-## Ubicación
+## Pasos
 
-En la vista posterior a la captura (rama `photo` ya cargada), justo encima o debajo de la fila de botones `Repetir / Descargar / WhatsApp`, agregar un pequeño texto tipo "hint":
+1. Subir `video_vertical.mp4` al CDN de Lovable Assets y crear el pointer `src/assets/hero-video-vertical.mp4.asset.json`.
+2. Editar `src/components/Hero.tsx`:
+   - Restaurar el layout en 2 columnas: `grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center`.
+   - Columna izquierda: el contenido actual (título, párrafo, botón).
+   - Columna derecha: un contenedor con el video vertical.
+3. Reintroducir el `videoRef` y el `useEffect` que ajusta `playbackRate` (opcional, lo dejamos en 1x ya que es vertical real).
+4. Estructura del video:
+   - Wrapper `relative mx-auto w-full max-w-[320px] sm:max-w-[360px] lg:max-w-[420px] aspect-[9/16] rounded-3xl overflow-hidden shadow-2xl`.
+   - `<video autoPlay muted loop playsInline preload="auto" className="absolute inset-0 h-full w-full object-cover">`.
+   - Halo `bg-primary/10 blur-3xl` detrás como antes.
+5. Mantener el parallax sutil con `scrollY` en la columna del video.
 
-- Tipografía: `text-xs text-muted-foreground`
-- Ícono pequeño (`Sparkles` o `MessageCircle` ya importado) a la izquierda
-- Centrado, con un poco de margen superior
+## Responsive
 
-## Texto propuesto
+- Móvil (`<lg`): el video aparece debajo del texto, centrado, ancho máximo ~320px para no dominar la pantalla.
+- Desktop (`lg+`): el video aparece a la derecha del texto, ancho máximo ~420px, manteniendo aspect 9:16.
 
-> ✨ Descarga la foto y compártela por WhatsApp para recibir consejos personalizados sobre tu mascota.
+## Archivos
 
-(Ajustable si prefieres otro copy.)
-
-## Detalles técnicos
-
-- Único archivo modificado: `src/components/blueprint/BlueprintCamera.tsx`
-- Se inserta un `<p>` dentro del bloque `{photo && ...}`, antes del `<div className="flex flex-wrap gap-2">` con los botones.
-- Sin cambios en lógica, tracking, ni estilos globales.
+- Nuevo: `src/assets/hero-video-vertical.mp4.asset.json`
+- Editado: `src/components/Hero.tsx`

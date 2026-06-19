@@ -3,6 +3,7 @@ import { Camera, ChevronsRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { QrParams } from "@/types/domain";
 import heroSeq01 from "@/assets/hero-seq-01.png.asset.json";
+import heroVideoVertical from "@/assets/hero-video-vertical.mp4.asset.json";
 
 
 interface Props {
@@ -38,9 +39,8 @@ export function Hero({ qrParams: _qrParams }: Props) {
         />
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 pt-10 pb-16 sm:pt-16 sm:pb-24">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 pt-10 pb-16 sm:pt-16 sm:pb-24 lg:grid-cols-[1.1fr_1fr] lg:items-center">
         <div>
-
           <h1 className="max-w-3xl font-display text-4xl leading-[1.02] font-semibold sm:text-6xl">
             Diagnóstico nutricional para tu{" "}
             <span className="italic text-primary">engreído</span>
@@ -68,9 +68,28 @@ export function Hero({ qrParams: _qrParams }: Props) {
             </span>
           </div>
         </div>
-      </div>
 
+        <div
+          className="relative"
+          style={{ transform: `translate3d(0, ${scrollY * -0.08}px, 0)` }}
+        >
+          <div
+            className="absolute -inset-8 rounded-full bg-primary/10 blur-3xl"
+            aria-hidden
+          />
+          <div className="relative mx-auto aspect-[9/16] w-full max-w-[280px] overflow-hidden rounded-3xl shadow-2xl sm:max-w-[340px] lg:max-w-[420px]">
+            <video
+              src={heroVideoVertical.url}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
-
