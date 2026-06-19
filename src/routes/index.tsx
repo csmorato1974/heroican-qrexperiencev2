@@ -44,7 +44,7 @@ function Index() {
     <main className="min-h-screen">
       <Header />
       <Hero qrParams={qrParams} />
-      <HowItWorks />
+      
       <Benefits />
       <ARPreview qrParams={qrParams} />
       <ProductsMatrix />
