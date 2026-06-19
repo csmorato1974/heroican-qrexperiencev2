@@ -25,7 +25,7 @@ export function ARPreview({ qrParams }: { qrParams: QrParams }) {
               <span className="hud-chip">Experiencia con cámara</span>
             </div>
             <h2 className="mt-4 text-3xl sm:text-4xl font-semibold">
-              Conoce a tu engreído por dentro<span className="text-accent">.</span>
+              Conoce a tu mascota por dentro<span className="text-accent">.</span>
             </h2>
             <p className="mt-2 max-w-xl text-base text-muted-foreground">
               Toma una foto de tu mascota y descubre, sobre la imagen, los beneficios
