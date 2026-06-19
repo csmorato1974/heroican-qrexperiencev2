@@ -18,7 +18,7 @@ export function Benefits() {
           <span className="h-px flex-1 bg-border" />
         </div>
         <h2 className="mt-4 text-3xl sm:text-4xl font-semibold">
-          Lo que come tu engreído<span className="text-accent">.</span>
+          Lo que come tu consentido<span className="text-accent">.</span>
         </h2>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
