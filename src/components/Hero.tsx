@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Camera, ChevronsRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { QrParams } from "@/types/domain";
 import heroSeq01 from "@/assets/hero-seq-01.png.asset.json";
-import heroVideo from "@/assets/hero-video.mp4.asset.json";
 
 
 interface Props {
@@ -12,7 +11,6 @@ interface Props {
 
 export function Hero({ qrParams: _qrParams }: Props) {
   const [scrollY, setScrollY] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
@@ -20,11 +18,6 @@ export function Hero({ qrParams: _qrParams }: Props) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 0.5;
-    }
-  }, []);
 
   return (
     <section className="relative overflow-hidden">
