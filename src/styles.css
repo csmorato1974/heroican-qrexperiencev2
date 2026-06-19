@@ -198,9 +198,9 @@
 }
 
 .hero-video {
-  animation: hero-video-breathe 9s ease-in-out infinite;
-  will-change: opacity, filter;
+  opacity: 1;
 }
+
 
 @media (prefers-reduced-motion: reduce) {
   .hero-sequence-frame {
