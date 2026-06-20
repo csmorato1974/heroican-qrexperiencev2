@@ -176,6 +176,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
   }
 
   return (
+    <>
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-[min(560px,96vw)] hud-panel p-4 sm:p-6 max-h-[95svh] overflow-y-auto">
         <DialogHeader>
@@ -307,6 +308,15 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
         )}
       </DialogContent>
     </Dialog>
+    <PetScannerOverlay
+      open={scanning}
+      onCancel={() => setScanning(false)}
+      onReady={() => {
+        setScanning(false);
+        inputRef.current?.click();
+      }}
+    />
+    </>
   );
 }
 
