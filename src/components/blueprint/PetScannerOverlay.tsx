@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Camera, ScanLine, ShieldCheck, X } from "lucide-react";
 
@@ -45,6 +45,7 @@ export function PetScannerOverlay({ open, onCancel, onReady }: Props) {
           className="relative flex flex-col h-[100svh] sm:h-[80svh] sm:rounded-3xl overflow-hidden"
           style={{ background: "var(--gradient-hero)" }}
         >
+          <DialogTitle className="sr-only">Preparando escaneo de tu mascota</DialogTitle>
           {/* Header */}
           <div className="relative z-10 flex items-center justify-between px-4 pt-4 sm:pt-5">
             <div className="flex items-center gap-2">
