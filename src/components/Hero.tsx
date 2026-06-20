@@ -3,7 +3,7 @@ import { Camera, ChevronsRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { QrParams } from "@/types/domain";
 import heroSeq01 from "@/assets/hero-seq-01.png.asset.json";
-import heroVideoVertical from "@/assets/hero-video-vertical.mp4.asset.json";
+
 
 
 interface Props {
