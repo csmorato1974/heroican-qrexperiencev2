@@ -103,12 +103,62 @@ function fallbackResponse() {
   return jsonResponse({ ok: true, analysis: FALLBACK, fallback: true });
 }
 
+// Simple in-memory per-IP rate limiter (best-effort; resets on cold start).
+const RATE_LIMIT_MAX = 8; // requests
+const RATE_LIMIT_WINDOW_MS = 60_000; // per minute
+const ipHits = new Map<string, { count: number; resetAt: number }>();
+
+function rateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = ipHits.get(ip);
+  if (!entry || entry.resetAt < now) {
+    ipHits.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+  entry.count += 1;
+  return entry.count > RATE_LIMIT_MAX;
+}
+
+function isAllowedOrigin(request: Request): boolean {
+  const origin = request.headers.get("origin");
+  const referer = request.headers.get("referer");
+  const source = origin ?? referer;
+  if (!source) return false;
+  try {
+    const url = new URL(source);
+    const host = url.hostname;
+    return (
+      host === "localhost" ||
+      host === "127.0.0.1" ||
+      host.endsWith(".lovable.app") ||
+      host.endsWith(".lovableproject.com") ||
+      host.endsWith("heroican.com")
+    );
+  } catch {
+    return false;
+  }
+}
+
 export const Route = createFileRoute("/api/analyze-pet")({
   server: {
     handlers: {
       POST: async ({ request }) => {
         const apiKey = process.env.OPENAI_API_KEY;
         if (!apiKey) return fallbackResponse();
+
+        // Same-origin check — blocks scripted calls from third-party origins.
+        if (!isAllowedOrigin(request)) {
+          return jsonResponse({ ok: false }, 403);
+        }
+
+        // Per-IP rate limit — caps worst-case abuse cost.
+        const ip =
+          request.headers.get("cf-connecting-ip") ??
+          request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+          "unknown";
+        if (rateLimited(ip)) {
+          return jsonResponse({ ok: false }, 429);
+        }
 
         let payload: z.infer<typeof RequestSchema>;
         try {
@@ -117,6 +167,7 @@ export const Route = createFileRoute("/api/analyze-pet")({
         } catch {
           return jsonResponse({ ok: false }, 400);
         }
+
 
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 12_000);
