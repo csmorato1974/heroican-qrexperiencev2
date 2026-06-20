@@ -257,7 +257,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
                 <button
                   key={b.code}
                   onClick={() => setActiveBadge(b.code)}
-                  className={`hud-panel rounded-2xl p-3 text-left transition ${
+                  className={`hud-panel rounded-2xl p-2 sm:p-3 text-left transition ${
                     activeBadge === b.code ? "border-primary ring-2 ring-primary/20" : "hover:border-primary/60"
                   }`}
                 >
@@ -271,17 +271,17 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
               ))}
             </div>
 
-            <p className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground text-center px-2">
+            <p className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground text-center px-2 text-balance">
               <MessageCircle className="h-3 w-3 shrink-0" />
               Descarga la foto y compártela por WhatsApp para recibir consejos personalizados sobre tu mascota.
             </p>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={reset}
-                className="rounded-full font-bold"
+                className="w-full sm:w-auto rounded-full font-bold"
               >
                 <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
                 Repetir
@@ -289,7 +289,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
               <Button
                 size="sm"
                 onClick={download}
-                className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
+                className="w-full sm:w-auto rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
               >
                 <Download className="mr-1.5 h-3.5 w-3.5" />
                 Descargar
@@ -298,7 +298,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
                 size="sm"
                 variant="outline"
                 onClick={shareWhatsapp}
-                className="rounded-full font-bold ml-auto"
+                className="col-span-2 sm:col-span-1 w-full sm:w-auto rounded-full font-bold sm:ml-auto"
               >
                 <MessageCircle className="mr-1.5 h-3.5 w-3.5" />
                 WhatsApp
