@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as MetricsRouteImport } from './routes/metrics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiAnalyzePetRouteImport } from './routes/api/analyze-pet'
+import { Route as ApiPublicPetEventRouteImport } from './routes/api/public/pet-event'
 
 const MetricsRoute = MetricsRouteImport.update({
   id: '/metrics',
@@ -28,35 +29,49 @@ const ApiAnalyzePetRoute = ApiAnalyzePetRouteImport.update({
   path: '/api/analyze-pet',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPetEventRoute = ApiPublicPetEventRouteImport.update({
+  id: '/api/public/pet-event',
+  path: '/api/public/pet-event',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/metrics': typeof MetricsRoute
   '/api/analyze-pet': typeof ApiAnalyzePetRoute
+  '/api/public/pet-event': typeof ApiPublicPetEventRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/metrics': typeof MetricsRoute
   '/api/analyze-pet': typeof ApiAnalyzePetRoute
+  '/api/public/pet-event': typeof ApiPublicPetEventRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/metrics': typeof MetricsRoute
   '/api/analyze-pet': typeof ApiAnalyzePetRoute
+  '/api/public/pet-event': typeof ApiPublicPetEventRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/metrics' | '/api/analyze-pet'
+  fullPaths: '/' | '/metrics' | '/api/analyze-pet' | '/api/public/pet-event'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/metrics' | '/api/analyze-pet'
-  id: '__root__' | '/' | '/metrics' | '/api/analyze-pet'
+  to: '/' | '/metrics' | '/api/analyze-pet' | '/api/public/pet-event'
+  id:
+    | '__root__'
+    | '/'
+    | '/metrics'
+    | '/api/analyze-pet'
+    | '/api/public/pet-event'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MetricsRoute: typeof MetricsRoute
   ApiAnalyzePetRoute: typeof ApiAnalyzePetRoute
+  ApiPublicPetEventRoute: typeof ApiPublicPetEventRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +97,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAnalyzePetRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pet-event': {
+      id: '/api/public/pet-event'
+      path: '/api/public/pet-event'
+      fullPath: '/api/public/pet-event'
+      preLoaderRoute: typeof ApiPublicPetEventRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,17 +111,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MetricsRoute: MetricsRoute,
   ApiAnalyzePetRoute: ApiAnalyzePetRoute,
+  ApiPublicPetEventRoute: ApiPublicPetEventRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -1,27 +1,66 @@
-## Cambio
+# Plan: métricas mínimas del trial de cámara
 
-Agregar el video vertical subido (`video_vertical.mp4`) al componente `src/components/Hero.tsx` y mostrarlo de forma responsive junto al texto principal.
+## 1. Activar Lovable Cloud
+El proyecto aún no tiene base de datos. Activo **Lovable Cloud** (PostgreSQL gestionado) para soportar la persistencia. Sin cuentas externas.
 
-## Pasos
+## 2. Migración SQL — tabla `pet_analysis_events`
 
-1. Subir `video_vertical.mp4` al CDN de Lovable Assets y crear el pointer `src/assets/hero-video-vertical.mp4.asset.json`.
-2. Editar `src/components/Hero.tsx`:
-   - Restaurar el layout en 2 columnas: `grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center`.
-   - Columna izquierda: el contenido actual (título, párrafo, botón).
-   - Columna derecha: un contenedor con el video vertical.
-3. Reintroducir el `videoRef` y el `useEffect` que ajusta `playbackRate` (opcional, lo dejamos en 1x ya que es vertical real).
-4. Estructura del video:
-   - Wrapper `relative mx-auto w-full max-w-[320px] sm:max-w-[360px] lg:max-w-[420px] aspect-[9/16] rounded-3xl overflow-hidden shadow-2xl`.
-   - `<video autoPlay muted loop playsInline preload="auto" className="absolute inset-0 h-full w-full object-cover">`.
-   - Halo `bg-primary/10 blur-3xl` detrás como antes.
-5. Mantener el parallax sutil con `scrollY` en la columna del video.
+```sql
+create type public.pet_event_type as enum
+  ('started', 'success', 'failed', 'whatsapp_clicked');
 
-## Responsive
+create table public.pet_analysis_events (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  session_id text not null,
+  event_type public.pet_event_type not null,
+  detected_animal text,
+  size_guess text,
+  recommended_focus text,
+  fallback_used boolean,
+  error_type text,
+  source text,
+  campaign text
+);
 
-- Móvil (`<lg`): el video aparece debajo del texto, centrado, ancho máximo ~320px para no dominar la pantalla.
-- Desktop (`lg+`): el video aparece a la derecha del texto, ancho máximo ~420px, manteniendo aspect 9:16.
+create index on public.pet_analysis_events (created_at desc);
 
-## Archivos
+-- Sin GRANT a anon/authenticated: solo el server route (service role) escribe.
+grant all on public.pet_analysis_events to service_role;
 
-- Nuevo: `src/assets/hero-video-vertical.mp4.asset.json`
-- Editado: `src/components/Hero.tsx`
+alter table public.pet_analysis_events enable row level security;
+-- Sin policies: ningún acceso desde el cliente.
+```
+
+Sin fotos, sin base64, sin URLs, sin `short_comment`, sin `visual_tags`, sin `user_agent`. Solo los 11 campos aprobados.
+
+## 3. Server route `/api/public/pet-event` (POST)
+- `src/routes/api/public/pet-event.ts`
+- Valida payload con Zod (whitelist estricta a los 9 campos aceptados desde cliente: `session_id`, `event_type`, `detected_animal`, `size_guess`, `recommended_focus`, `fallback_used`, `error_type`, `source`, `campaign`).
+- Inserta con `supabaseAdmin` cargado dentro del handler.
+- Responde siempre `204` rápido; errores se loguean server-side y nunca se propagan.
+
+## 4. Cliente: `src/lib/petEvents.ts`
+- `getSessionId()`: UUID anónimo en `sessionStorage` (clave `heroican_pet_session`).
+- `getSourceCampaign()`: lee `source` / `utm_campaign` de la URL.
+- `trackPetEvent(event_type, payload?)`: `fetch` con `keepalive: true`, envuelto en `try/catch` que silencia errores. Nunca lanza.
+
+## 5. Integración (sin cambiar UX)
+- `BlueprintCamera.tsx`:
+  - Al iniciar análisis → `trackPetEvent('started')`.
+  - Respuesta OK → `trackPetEvent('success', { detected_animal, size_guess, recommended_focus, fallback_used })`.
+  - Catch / fallback → `trackPetEvent('failed', { error_type, fallback_used: true })`.
+- `PetInsightCard.tsx`:
+  - `onClick` WhatsApp → `trackPetEvent('whatsapp_clicked', { detected_animal, size_guess, recommended_focus })`.
+
+## 6. Garantías
+- Si la DB falla: `fetch` falla en silencio, la UI sigue intacta (foto, insight card, descarga, WhatsApp, badges).
+- Sin PII, sin contenido, sin imagen. `session_id` aleatorio y efímero (solo durante la sesión del navegador).
+
+## 7. Cierre
+Al terminar te explicaré: qué base de datos usa el proyecto, la tabla `pet_analysis_events` con sus 11 campos, y qué eventos (`started`, `success`, `failed`, `whatsapp_clicked`) se registran y con qué campos cada uno.
+
+## Fuera de alcance
+- Dashboard de métricas.
+- Persistencia de fotos o de la respuesta de OpenAI.
+- Cambios en badges, descarga, copy o footer.
