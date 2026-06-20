@@ -28,8 +28,9 @@ export function ARPreview({ qrParams }: { qrParams: QrParams }) {
               Conoce a tu mascota por dentro<span className="text-accent">.</span>
             </h2>
             <p className="mt-2 max-w-xl text-base text-muted-foreground">
-              Toma una foto de tu mascota y descubre, sobre la imagen, los beneficios
-              Heroican que la cuidan cada día.
+              Toma una foto y nuestra IA detecta rasgos visibles de tu mascota
+              — tamaño, pelaje y estilo — para darte una orientación
+              nutricional breve y personalizada de Heroican.
             </p>
 
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
@@ -56,7 +57,7 @@ export function ARPreview({ qrParams }: { qrParams: QrParams }) {
           </div>
         </div>
 
-        <div className="mt-8 flex justify-center">
+        <div className="mt-8 flex flex-col items-center gap-2">
           <Button
             className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 h-12 font-bold"
             onClick={() => {
@@ -67,6 +68,9 @@ export function ARPreview({ qrParams }: { qrParams: QrParams }) {
             <Camera className="mr-2 h-5 w-5" />
             Tomar foto a mi mascota
           </Button>
+          <p className="text-xs text-muted-foreground italic">
+            Análisis visual en segundos. Orientativo, no reemplaza al veterinario.
+          </p>
         </div>
       </div>
 
