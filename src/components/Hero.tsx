@@ -69,26 +69,6 @@ export function Hero({ qrParams: _qrParams }: Props) {
           </div>
         </div>
 
-        <div
-          className="relative"
-          style={{ transform: `translate3d(0, ${scrollY * -0.08}px, 0)` }}
-        >
-          <div
-            className="absolute -inset-8 rounded-full bg-primary/10 blur-3xl"
-            aria-hidden
-          />
-          <div className="relative mx-auto aspect-[9/16] w-full max-w-[280px] overflow-hidden rounded-3xl shadow-2xl sm:max-w-[340px] lg:max-w-[420px]">
-            <video
-              src={heroVideoVertical.url}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          </div>
-        </div>
       </div>
     </section>
   );
