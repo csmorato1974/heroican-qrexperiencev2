@@ -204,8 +204,8 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
             <Button
               className="mt-5 rounded-full h-12 px-6 bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
               onClick={() => {
-                inputRef.current?.click();
                 track("blueprint_camera_opened", qrParams);
+                setScanning(true);
               }}
             >
               <Camera className="mr-2 h-5 w-5" />
