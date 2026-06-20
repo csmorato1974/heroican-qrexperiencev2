@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import logoAsset from "@/assets/heroican-logo-footer.png.asset.json";
 
 
@@ -28,12 +27,6 @@ export function Footer() {
           <a className="block text-muted-foreground hover:text-primary" href="#">
             Libro de reclamaciones
           </a>
-          <Link
-            to="/metrics"
-            className="block mt-3 text-primary/80 hover:text-primary"
-          >
-            · Métricas del piloto ▸
-          </Link>
         </div>
       </div>
       <p className="text-center text-xs text-muted-foreground pb-6 px-4">
