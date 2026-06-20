@@ -39,7 +39,7 @@ export function Hero({ qrParams: _qrParams }: Props) {
         />
       </div>
 
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 pt-10 pb-16 sm:pt-16 sm:pb-24 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+      <div className="mx-auto max-w-6xl px-4 pt-10 pb-16 sm:pt-16 sm:pb-24">
         <div>
           <h1 className="max-w-3xl font-display text-4xl leading-[1.02] font-semibold sm:text-6xl">
             Diagnóstico nutricional para tu{" "}
