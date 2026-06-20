@@ -41,32 +41,47 @@ export function Hero({ qrParams: _qrParams }: Props) {
       </div>
 
       <div className="mx-auto max-w-6xl px-4 pt-10 pb-16 sm:pt-16 sm:pb-24">
-        <div>
-          <h1 className="max-w-3xl font-display text-4xl leading-[1.02] font-semibold sm:text-6xl">
-            Diagnóstico nutricional para tu{" "}
-            <span className="italic text-primary">engreído</span>
-            <span className="text-accent">.</span>
-          </h1>
+        <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-12">
+          <div>
+            <h1 className="max-w-3xl font-display text-4xl leading-[1.02] font-semibold sm:text-6xl">
+              Diagnóstico nutricional para tu{" "}
+              <span className="italic text-primary">engreído</span>
+              <span className="text-accent">.</span>
+            </h1>
 
-          <p className="mt-5 max-w-xl text-base text-muted-foreground">
-            Tu asistente Heroican ya está listo. Responde unas preguntas en el
-            panel y recibe la recomendación ideal en menos de 60 segundos.
-          </p>
+            <p className="mt-5 max-w-xl text-base text-muted-foreground">
+              Tu asistente Heroican ya está listo. Responde unas preguntas en el
+              panel y recibe la recomendación ideal en menos de 60 segundos.
+            </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Button
-              asChild
-              className="h-12 rounded-full bg-primary px-6 font-bold text-primary-foreground hover:bg-primary/90"
-            >
-              <a href="#foto-mascota">
-                <Camera className="mr-2 h-5 w-5" />
-                Probar la experiencia con cámara
-              </a>
-            </Button>
-            <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
-              <ChevronsRight className="h-4 w-4 animate-pulse" />
-              Toma una foto de tu mascota
-            </span>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Button
+                asChild
+                className="h-12 rounded-full bg-primary px-6 font-bold text-primary-foreground hover:bg-primary/90"
+              >
+                <a href="#foto-mascota">
+                  <Camera className="mr-2 h-5 w-5" />
+                  Probar la experiencia con cámara
+                </a>
+              </Button>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                <ChevronsRight className="h-4 w-4 animate-pulse" />
+                Toma una foto de tu mascota
+              </span>
+            </div>
+          </div>
+
+          <div className="hero-video-wrap mx-auto w-full max-w-[280px] sm:max-w-sm lg:max-w-md">
+            <video
+              src={heroVideoReel.url}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              aria-label="Demostración Heroican"
+              className="h-auto w-full rounded-3xl shadow-2xl"
+            />
           </div>
         </div>
 
