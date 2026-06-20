@@ -41,18 +41,15 @@ export function PetScannerOverlay({ open, onCancel, onReady }: Props) {
       <DialogContent
         className="p-0 border-0 bg-transparent shadow-none max-w-[100vw] w-screen h-[100svh] sm:max-w-md sm:h-auto sm:rounded-3xl overflow-hidden [&>button]:hidden"
       >
-        <div
-          className="relative flex flex-col h-[100svh] sm:h-[80svh] sm:rounded-3xl overflow-hidden"
-          style={{ background: "var(--gradient-hero)" }}
-        >
+        <div className="relative flex flex-col h-[100svh] sm:h-[80svh] sm:rounded-3xl overflow-hidden bg-black">
           <DialogTitle className="sr-only">Preparando escaneo de tu mascota</DialogTitle>
           {/* Header */}
           <div className="relative z-10 flex items-center justify-between px-4 pt-4 sm:pt-5">
             <div className="flex items-center gap-2">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary/20">
                 <ScanLine className="h-4 w-4 text-primary" />
               </span>
-              <p className="font-display text-base leading-tight">
+              <p className="font-display text-base leading-tight text-white">
                 Preparando escaneo
               </p>
             </div>
@@ -60,7 +57,7 @@ export function PetScannerOverlay({ open, onCancel, onReady }: Props) {
               type="button"
               onClick={onCancel}
               aria-label="Cancelar escaneo"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-card/80 border border-border text-foreground hover:bg-card transition"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 border border-white/20 text-white hover:bg-white/20 transition"
             >
               <X className="h-4 w-4" />
             </button>
@@ -73,18 +70,24 @@ export function PetScannerOverlay({ open, onCancel, onReady }: Props) {
               style={{ aspectRatio: "3 / 4" }}
             >
               {/* Inner viewfinder background */}
-              <div className="absolute inset-0 rounded-2xl bg-background/40 backdrop-blur-sm border border-primary/20 overflow-hidden">
-                {/* Scanning line */}
-                <div className="absolute inset-x-3 top-0 h-px scan-line">
-                  <div className="h-px w-full bg-gradient-to-r from-transparent via-primary to-transparent" />
-                  <div className="h-6 w-full bg-gradient-to-b from-primary/30 to-transparent blur-sm -mt-px" />
+              <div
+                className="absolute inset-0 rounded-2xl bg-black border border-primary/30 overflow-hidden"
+                style={{ containerType: "size" } as React.CSSProperties}
+              >
+                {/* Vertical scanning line (QR-style, top → bottom) */}
+                <div
+                  className="absolute inset-x-0 top-0 scan-line pointer-events-none"
+                  style={{ ["--scan-distance" as any]: "100cqh" }}
+                >
+                  <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent shadow-[0_0_14px_2px] shadow-primary/70" />
+                  <div className="h-16 w-full bg-gradient-to-b from-primary/35 to-transparent" />
                 </div>
 
                 {/* Pulsing center dot */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="relative flex h-3 w-3">
                     <span className="absolute inset-0 rounded-full bg-primary/40 pulse-glow" />
-                    <span className="relative m-auto h-2 w-2 rounded-full bg-primary border border-background" />
+                    <span className="relative m-auto h-2 w-2 rounded-full bg-primary border border-black" />
                   </span>
                 </div>
               </div>
