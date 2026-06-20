@@ -5,6 +5,7 @@ import { Camera, RotateCcw, Download, MessageCircle, ShieldCheck, Loader2 } from
 import { track } from "@/lib/tracker";
 import { BLUEPRINT_BADGES, type BlueprintBadge } from "./badges";
 import { PetInsightCard } from "./PetInsightCard";
+import { PetScannerOverlay } from "./PetScannerOverlay";
 import { analyzePet, type PetAnalysisResult } from "@/lib/petAnalysis";
 import { trackPetEvent } from "@/lib/petEvents";
 import type { QrParams } from "@/types/domain";
@@ -26,6 +27,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
   const [photo, setPhoto] = useState<string | null>(null);
   const [activeBadge, setActiveBadge] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<AnalysisState>({ status: "idle" });
+  const [scanning, setScanning] = useState(false);
 
   async function runAnalysis(dataUrl: string) {
     setAnalysis({ status: "analyzing" });
@@ -174,6 +176,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
   }
 
   return (
+    <>
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-[min(560px,96vw)] hud-panel p-4 sm:p-6 max-h-[95svh] overflow-y-auto">
         <DialogHeader>
@@ -202,8 +205,8 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
             <Button
               className="mt-5 rounded-full h-12 px-6 bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
               onClick={() => {
-                inputRef.current?.click();
                 track("blueprint_camera_opened", qrParams);
+                setScanning(true);
               }}
             >
               <Camera className="mr-2 h-5 w-5" />
@@ -305,6 +308,15 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
         )}
       </DialogContent>
     </Dialog>
+    <PetScannerOverlay
+      open={scanning}
+      onCancel={() => setScanning(false)}
+      onReady={() => {
+        setScanning(false);
+        inputRef.current?.click();
+      }}
+    />
+    </>
   );
 }
 
