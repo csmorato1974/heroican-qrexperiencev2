@@ -6,6 +6,7 @@ import { track } from "@/lib/tracker";
 import { BLUEPRINT_BADGES, type BlueprintBadge } from "./badges";
 import { PetInsightCard } from "./PetInsightCard";
 import { analyzePet, type PetAnalysisResult } from "@/lib/petAnalysis";
+import { trackPetEvent } from "@/lib/petEvents";
 import type { QrParams } from "@/types/domain";
 
 interface Props {
@@ -29,6 +30,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
   async function runAnalysis(dataUrl: string) {
     setAnalysis({ status: "analyzing" });
     track("pet_analysis_started", qrParams);
+    trackPetEvent("started");
     try {
       const result = await analyzePet(dataUrl);
       setAnalysis({ status: "done", result });
@@ -37,6 +39,20 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
         qrParams,
         { focus: result.analysis.recommended_focus },
       );
+      if (result.fallback) {
+        trackPetEvent("failed", {
+          fallback_used: true,
+          error_type: "analysis_fallback",
+          recommended_focus: result.analysis.recommended_focus,
+        });
+      } else {
+        trackPetEvent("success", {
+          detected_animal: result.analysis.detected_animal,
+          size_guess: result.analysis.size_guess,
+          recommended_focus: result.analysis.recommended_focus,
+          fallback_used: false,
+        });
+      }
     } catch {
       setAnalysis({
         status: "done",
@@ -55,6 +71,10 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
         },
       });
       track("pet_analysis_failed", qrParams);
+      trackPetEvent("failed", {
+        fallback_used: true,
+        error_type: "exception",
+      });
     }
   }
 
