@@ -437,7 +437,7 @@ export function ChatbotPanel({ qrParams }: Props) {
                 className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-5 h-11 font-bold text-primary-foreground hover:bg-primary/90 transition"
               >
                 <ShoppingBag className="h-4 w-4" />
-                Comprar en heroican.pe
+                Comprar en heroican.com
               </a>
             </div>
           </>
