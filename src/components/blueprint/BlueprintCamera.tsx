@@ -5,6 +5,7 @@ import { Camera, RotateCcw, Download, MessageCircle, ShieldCheck, Loader2 } from
 import { track } from "@/lib/tracker";
 import { BLUEPRINT_BADGES, type BlueprintBadge } from "./badges";
 import { PetInsightCard } from "./PetInsightCard";
+import { PetScannerOverlay } from "./PetScannerOverlay";
 import { analyzePet, type PetAnalysisResult } from "@/lib/petAnalysis";
 import { trackPetEvent } from "@/lib/petEvents";
 import type { QrParams } from "@/types/domain";
@@ -26,6 +27,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
   const [photo, setPhoto] = useState<string | null>(null);
   const [activeBadge, setActiveBadge] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<AnalysisState>({ status: "idle" });
+  const [scanning, setScanning] = useState(false);
 
   async function runAnalysis(dataUrl: string) {
     setAnalysis({ status: "analyzing" });
