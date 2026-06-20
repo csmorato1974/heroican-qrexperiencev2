@@ -344,8 +344,8 @@ function Hotspot({
       <span
         className={`absolute top-1/2 -translate-y-1/2 ${
           badge.side === "right" ? "left-6" : "right-6"
-        } whitespace-nowrap text-[10px] font-bold text-foreground bg-card/95 backdrop-blur px-2 py-1 rounded-full border border-border shadow-sm ${
-          active ? "opacity-100" : "opacity-95 group-hover:opacity-100"
+        } max-w-[8rem] truncate text-[9px] sm:text-[10px] font-bold text-foreground bg-card/95 backdrop-blur px-2 py-1 rounded-full border border-border shadow-sm ${
+          active ? "inline opacity-100" : "hidden sm:inline opacity-95 group-hover:opacity-100"
         }`}
       >
         {badge.title}
