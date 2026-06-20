@@ -109,7 +109,7 @@ export function PetScannerOverlay({ open, onCancel, onReady }: Props) {
 
               {/* Status label */}
               <div className="absolute -bottom-12 inset-x-0 flex justify-center">
-                <span className="text-[12px] font-bold text-foreground/90 bg-card/85 backdrop-blur border border-border rounded-full px-3 py-1.5 shadow-sm">
+                <span className="text-[12px] font-bold text-white bg-white/10 backdrop-blur border border-white/20 rounded-full px-3 py-1.5 shadow-sm">
                   {STEPS[step]}
                 </span>
               </div>
@@ -125,10 +125,10 @@ export function PetScannerOverlay({ open, onCancel, onReady }: Props) {
               <Camera className="mr-2 h-5 w-5" />
               Capturar ahora
             </Button>
-            <p className="text-center text-[11px] text-muted-foreground">
+            <p className="text-center text-[11px] text-white/70">
               Auto-captura en breve. Apunta a tu mascota dentro del marco.
             </p>
-            <p className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground">
+            <p className="flex items-center justify-center gap-1.5 text-[11px] text-white/70">
               <ShieldCheck className="h-3.5 w-3.5" />
               Procesamos la foto solo para este análisis. No la guardamos.
             </p>
