@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MetricsRouteImport } from './routes/metrics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiAnalyzePetRouteImport } from './routes/api/analyze-pet'
 
 const MetricsRoute = MetricsRouteImport.update({
   id: '/metrics',
@@ -22,31 +23,40 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAnalyzePetRoute = ApiAnalyzePetRouteImport.update({
+  id: '/api/analyze-pet',
+  path: '/api/analyze-pet',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/metrics': typeof MetricsRoute
+  '/api/analyze-pet': typeof ApiAnalyzePetRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/metrics': typeof MetricsRoute
+  '/api/analyze-pet': typeof ApiAnalyzePetRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/metrics': typeof MetricsRoute
+  '/api/analyze-pet': typeof ApiAnalyzePetRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/metrics'
+  fullPaths: '/' | '/metrics' | '/api/analyze-pet'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/metrics'
-  id: '__root__' | '/' | '/metrics'
+  to: '/' | '/metrics' | '/api/analyze-pet'
+  id: '__root__' | '/' | '/metrics' | '/api/analyze-pet'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MetricsRoute: typeof MetricsRoute
+  ApiAnalyzePetRoute: typeof ApiAnalyzePetRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,23 +75,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/analyze-pet': {
+      id: '/api/analyze-pet'
+      path: '/api/analyze-pet'
+      fullPath: '/api/analyze-pet'
+      preLoaderRoute: typeof ApiAnalyzePetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MetricsRoute: MetricsRoute,
+  ApiAnalyzePetRoute: ApiAnalyzePetRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

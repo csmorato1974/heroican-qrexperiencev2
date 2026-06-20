@@ -1,10 +1,11 @@
 import { useRef, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Camera, RotateCcw, Download, MessageCircle, ShieldCheck } from "lucide-react";
+import { Camera, RotateCcw, Download, MessageCircle, ShieldCheck, Loader2 } from "lucide-react";
 import { track } from "@/lib/tracker";
 import { BLUEPRINT_BADGES, type BlueprintBadge } from "./badges";
-import { buildWhatsappUrl } from "@/lib/whatsapp";
+import { PetInsightCard } from "./PetInsightCard";
+import { analyzePet, type PetAnalysisResult } from "@/lib/petAnalysis";
 import type { QrParams } from "@/types/domain";
 
 interface Props {
@@ -13,19 +14,59 @@ interface Props {
   qrParams: QrParams;
 }
 
+type AnalysisState =
+  | { status: "idle" }
+  | { status: "analyzing" }
+  | { status: "done"; result: PetAnalysisResult };
+
 export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [photo, setPhoto] = useState<string | null>(null);
   const [activeBadge, setActiveBadge] = useState<string | null>(null);
+  const [analysis, setAnalysis] = useState<AnalysisState>({ status: "idle" });
+
+  async function runAnalysis(dataUrl: string) {
+    setAnalysis({ status: "analyzing" });
+    track("pet_analysis_started", qrParams);
+    try {
+      const result = await analyzePet(dataUrl);
+      setAnalysis({ status: "done", result });
+      track(
+        result.fallback ? "pet_analysis_failed" : "pet_analysis_success",
+        qrParams,
+        { focus: result.analysis.recommended_focus },
+      );
+    } catch {
+      setAnalysis({
+        status: "done",
+        result: {
+          analysis: {
+            detected_animal: "no_identificado",
+            size_guess: "desconocido",
+            coat_color: "no_identificado",
+            coat_length: "desconocido",
+            visual_tags: [],
+            short_comment:
+              "No pudimos analizar la foto ahora mismo. Igual podemos orientarte con la nutrición ideal para tu mascota.",
+            recommended_focus: "general",
+          },
+          fallback: true,
+        },
+      });
+      track("pet_analysis_failed", qrParams);
+    }
+  }
 
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
-      setPhoto(reader.result as string);
+      const dataUrl = reader.result as string;
+      setPhoto(dataUrl);
       track("blueprint_photo_captured", qrParams, { size: file.size });
+      void runAnalysis(dataUrl);
     };
     reader.readAsDataURL(file);
   }
@@ -33,6 +74,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
   function reset() {
     setPhoto(null);
     setActiveBadge(null);
+    setAnalysis({ status: "idle" });
     if (inputRef.current) inputRef.current.value = "";
   }
 
@@ -88,6 +130,22 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
     window.open(url, "_blank");
   }
 
+  function shareWhatsappWithInsight() {
+    if (analysis.status !== "done") return shareWhatsapp();
+    const a = analysis.result.analysis;
+    const parts = [
+      "Hola Heroican, acabo de probar el análisis con la foto de mi mascota.",
+      a.detected_animal && a.detected_animal !== "no_identificado"
+        ? `Resultado: ${a.detected_animal}, ${a.size_guess}, pelaje ${a.coat_color} ${a.coat_length}.`
+        : null,
+      `Foco sugerido: ${a.recommended_focus}.`,
+      "Me gustaría una recomendación personalizada.",
+    ].filter(Boolean);
+    const url = `https://wa.me/59164280437?text=${encodeURIComponent(parts.join(" "))}`;
+    track("blueprint_share_whatsapp", qrParams, { from: "insight_card" });
+    window.open(url, "_blank");
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-[min(560px,96vw)] hud-panel p-4 sm:p-6 max-h-[95svh] overflow-y-auto">
@@ -104,7 +162,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
             </span>
             <p className="mt-4 font-display text-xl">Toma una foto de tu mascota</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Te mostraremos sobre la imagen los beneficios Heroican que la cuidan.
+              Detectamos rasgos visibles y te damos una orientación nutricional breve y personalizada.
             </p>
             <input
               ref={inputRef}
@@ -126,7 +184,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
             </Button>
             <p className="mt-4 text-xs text-muted-foreground flex items-center justify-center gap-1.5">
               <ShieldCheck className="h-3.5 w-3.5" />
-              La foto no sale de tu dispositivo
+              Procesamos la foto solo para este análisis. No la guardamos.
             </p>
           </div>
         ) : (
@@ -146,7 +204,23 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
                   onToggle={() => setActiveBadge((a) => (a === b.code ? null : b.code))}
                 />
               ))}
+              {analysis.status === "analyzing" && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/70 backdrop-blur-sm">
+                  <Loader2 className="h-6 w-6 text-primary animate-spin" />
+                  <p className="mt-2 text-sm font-display text-foreground text-center px-4">
+                    Analizando rasgos visibles de tu mascota…
+                  </p>
+                </div>
+              )}
             </div>
+
+            {analysis.status === "done" && (
+              <PetInsightCard
+                analysis={analysis.result.analysis}
+                fallback={analysis.result.fallback}
+                onWhatsapp={shareWhatsappWithInsight}
+              />
+            )}
 
             <div className="grid grid-cols-2 gap-2">
               {BLUEPRINT_BADGES.map((b) => (
