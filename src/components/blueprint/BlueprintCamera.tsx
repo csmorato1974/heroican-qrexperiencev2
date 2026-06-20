@@ -147,6 +147,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
     const msg = "Hola Heroican, quiero asesoría personalizada para saber cómo cuidar a mi mascota";
     const url = `https://wa.me/59164280437?text=${encodeURIComponent(msg)}`;
     track("blueprint_share_whatsapp", qrParams);
+    trackPetEvent("whatsapp_clicked");
     window.open(url, "_blank");
   }
 
@@ -163,6 +164,12 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
     ].filter(Boolean);
     const url = `https://wa.me/59164280437?text=${encodeURIComponent(parts.join(" "))}`;
     track("blueprint_share_whatsapp", qrParams, { from: "insight_card" });
+    trackPetEvent("whatsapp_clicked", {
+      detected_animal: a.detected_animal,
+      size_guess: a.size_guess,
+      recommended_focus: a.recommended_focus,
+      fallback_used: analysis.result.fallback,
+    });
     window.open(url, "_blank");
   }
 
