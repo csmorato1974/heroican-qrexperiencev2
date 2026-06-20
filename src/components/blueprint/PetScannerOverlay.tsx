@@ -39,8 +39,7 @@ export function PetScannerOverlay({ open, onCancel, onReady }: Props) {
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onCancel()}>
       <DialogContent
-        showCloseButton={false}
-        className="p-0 border-0 bg-transparent shadow-none max-w-[100vw] w-screen h-[100svh] sm:max-w-md sm:h-auto sm:rounded-3xl overflow-hidden"
+        className="p-0 border-0 bg-transparent shadow-none max-w-[100vw] w-screen h-[100svh] sm:max-w-md sm:h-auto sm:rounded-3xl overflow-hidden [&>button]:hidden"
       >
         <div
           className="relative flex flex-col h-[100svh] sm:h-[80svh] sm:rounded-3xl overflow-hidden"
