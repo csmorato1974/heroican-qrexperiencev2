@@ -1,11 +1,12 @@
-Cambiar el texto visible del botón de compra en el chatbot de `heroican.pe` a `heroican.com`.
+Ajustes visuales en el modal de escaneo previo a la cámara (`PetScannerOverlay`):
 
-## Archivo a modificar
-- `src/components/chatbot/ChatbotPanel.tsx` — Línea 440
+1. Fondo negro — reemplazar el gradiente actual (`--gradient-hero`) por negro puro en el contenedor del modal para darle look de scanner/visor.
+2. Línea de escaneo vertical — convertir la línea animada actual (horizontal) en una barra que recorre el marco de arriba hacia abajo, similar al escaneo de un código QR. Se requiere:
+   - Cambiar orientación del elemento de línea (ancho fijo, altura animada o translateY sobre eje vertical).
+   - Actualizar o reemplazar la animación CSS `scan-line` en `styles.css` para que el movimiento sea top-to-bottom sobre el eje Y dentro del marco rectangular.
 
-## Cambio exacto
-```
-Comprar en heroican.pe   →   Comprar en heroican.com
-```
+Archivos afectados:
+- `src/components/blueprint/PetScannerOverlay.tsx`
+- `src/styles.css`
 
-No se toca ninguna URL real (la prop `href` usa `recommended.storeUrl` que ya apunta a `https://heroican.com/tienda/` según `src/lib/products.ts`). Solo se corrige el texto visible del botón.
+Sin cambios en backend, persistencia ni lógica de captura/análisis.
