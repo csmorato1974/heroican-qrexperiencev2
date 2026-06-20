@@ -178,20 +178,20 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
   return (
     <>
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[min(560px,96vw)] hud-panel p-4 sm:p-6 max-h-[95svh] overflow-y-auto">
+      <DialogContent className="w-[calc(100vw-1rem)] max-w-[560px] hud-panel p-3 sm:p-6 max-h-[95svh] overflow-y-auto rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl">
+          <DialogTitle className="font-display text-lg sm:text-xl pr-10">
             Mira cómo cuidamos a tu engreído&nbsp; 🐶
           </DialogTitle>
         </DialogHeader>
 
         {!photo ? (
-          <div className="mt-4 rounded-2xl p-6 text-center" style={{ background: "var(--gradient-hero)" }}>
+          <div className="mt-4 rounded-2xl p-4 sm:p-6 text-center" style={{ background: "var(--gradient-hero)" }}>
             <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
               <Camera className="h-7 w-7 text-primary" />
             </span>
-            <p className="mt-4 font-display text-xl">Toma una foto de tu mascota</p>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <p className="mt-4 font-display text-lg sm:text-xl text-balance">Toma una foto de tu mascota</p>
+            <p className="mt-2 text-sm text-muted-foreground text-balance">
               Detectamos rasgos visibles y te damos una orientación nutricional breve y personalizada.
             </p>
             <input
@@ -203,7 +203,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
               onChange={handleFile}
             />
             <Button
-              className="mt-5 rounded-full h-12 px-6 bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
+              className="mt-5 rounded-full h-11 sm:h-12 px-6 bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
               onClick={() => {
                 track("blueprint_camera_opened", qrParams);
                 setScanning(true);
@@ -212,8 +212,8 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
               <Camera className="mr-2 h-5 w-5" />
               Tomar foto
             </Button>
-            <p className="mt-4 text-xs text-muted-foreground flex items-center justify-center gap-1.5">
-              <ShieldCheck className="h-3.5 w-3.5" />
+            <p className="mt-4 text-xs text-muted-foreground flex items-center justify-center gap-1.5 text-balance">
+              <ShieldCheck className="h-3.5 w-3.5 shrink-0" />
               Procesamos la foto solo para este análisis. No la guardamos.
             </p>
           </div>
