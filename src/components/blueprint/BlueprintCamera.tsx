@@ -178,20 +178,20 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
   return (
     <>
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[min(560px,96vw)] hud-panel p-4 sm:p-6 max-h-[95svh] overflow-y-auto">
+      <DialogContent className="w-[calc(100vw-1rem)] max-w-[560px] hud-panel p-3 sm:p-6 max-h-[95svh] overflow-y-auto rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl">
+          <DialogTitle className="font-display text-lg sm:text-xl pr-10">
             Mira cómo cuidamos a tu engreído&nbsp; 🐶
           </DialogTitle>
         </DialogHeader>
 
         {!photo ? (
-          <div className="mt-4 rounded-2xl p-6 text-center" style={{ background: "var(--gradient-hero)" }}>
+          <div className="mt-4 rounded-2xl p-4 sm:p-6 text-center" style={{ background: "var(--gradient-hero)" }}>
             <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
               <Camera className="h-7 w-7 text-primary" />
             </span>
-            <p className="mt-4 font-display text-xl">Toma una foto de tu mascota</p>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <p className="mt-4 font-display text-lg sm:text-xl text-balance">Toma una foto de tu mascota</p>
+            <p className="mt-2 text-sm text-muted-foreground text-balance">
               Detectamos rasgos visibles y te damos una orientación nutricional breve y personalizada.
             </p>
             <input
@@ -203,7 +203,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
               onChange={handleFile}
             />
             <Button
-              className="mt-5 rounded-full h-12 px-6 bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
+              className="mt-5 rounded-full h-11 sm:h-12 px-6 bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
               onClick={() => {
                 track("blueprint_camera_opened", qrParams);
                 setScanning(true);
@@ -212,8 +212,8 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
               <Camera className="mr-2 h-5 w-5" />
               Tomar foto
             </Button>
-            <p className="mt-4 text-xs text-muted-foreground flex items-center justify-center gap-1.5">
-              <ShieldCheck className="h-3.5 w-3.5" />
+            <p className="mt-4 text-xs text-muted-foreground flex items-center justify-center gap-1.5 text-balance">
+              <ShieldCheck className="h-3.5 w-3.5 shrink-0" />
               Procesamos la foto solo para este análisis. No la guardamos.
             </p>
           </div>
@@ -257,7 +257,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
                 <button
                   key={b.code}
                   onClick={() => setActiveBadge(b.code)}
-                  className={`hud-panel rounded-2xl p-3 text-left transition ${
+                  className={`hud-panel rounded-2xl p-2 sm:p-3 text-left transition ${
                     activeBadge === b.code ? "border-primary ring-2 ring-primary/20" : "hover:border-primary/60"
                   }`}
                 >
@@ -271,17 +271,17 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
               ))}
             </div>
 
-            <p className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground text-center px-2">
+            <p className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground text-center px-2 text-balance">
               <MessageCircle className="h-3 w-3 shrink-0" />
               Descarga la foto y compártela por WhatsApp para recibir consejos personalizados sobre tu mascota.
             </p>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={reset}
-                className="rounded-full font-bold"
+                className="w-full sm:w-auto rounded-full font-bold"
               >
                 <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
                 Repetir
@@ -289,7 +289,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
               <Button
                 size="sm"
                 onClick={download}
-                className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
+                className="w-full sm:w-auto rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
               >
                 <Download className="mr-1.5 h-3.5 w-3.5" />
                 Descargar
@@ -298,7 +298,7 @@ export function BlueprintCamera({ open, onOpenChange, qrParams }: Props) {
                 size="sm"
                 variant="outline"
                 onClick={shareWhatsapp}
-                className="rounded-full font-bold ml-auto"
+                className="col-span-2 sm:col-span-1 w-full sm:w-auto rounded-full font-bold sm:ml-auto"
               >
                 <MessageCircle className="mr-1.5 h-3.5 w-3.5" />
                 WhatsApp
@@ -344,8 +344,8 @@ function Hotspot({
       <span
         className={`absolute top-1/2 -translate-y-1/2 ${
           badge.side === "right" ? "left-6" : "right-6"
-        } whitespace-nowrap text-[10px] font-bold text-foreground bg-card/95 backdrop-blur px-2 py-1 rounded-full border border-border shadow-sm ${
-          active ? "opacity-100" : "opacity-95 group-hover:opacity-100"
+        } max-w-[8rem] truncate text-[9px] sm:text-[10px] font-bold text-foreground bg-card/95 backdrop-blur px-2 py-1 rounded-full border border-border shadow-sm ${
+          active ? "inline opacity-100" : "hidden sm:inline opacity-95 group-hover:opacity-100"
         }`}
       >
         {badge.title}
